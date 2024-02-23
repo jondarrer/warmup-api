@@ -1,11 +1,12 @@
 {
-  "private": true,
+  "private": false,
   "name": "warmup-api",
   "version": "0.0.1",
   "description": "An API for communicating with a wifi-enabled home thermostat made by Warmup",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
