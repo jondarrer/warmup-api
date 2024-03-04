@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "warmup-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An API for communicating with a wifi-enabled home thermostat made by Warmup",
   "license": "Apache-2.0",
   "author": "Jonathan Darrer <jonny@jondarrer.me.uk>",
