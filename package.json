@@ -17,7 +17,7 @@
   "main": "src/index.js",
   "module": "esnext",
   "scripts": {
-    "coverage": "lcov-badge2 -o coverage-badge.svg coverage/lcov.info",
+    "coverage-badge": "lcov-badge2 -o coverage-badge.svg coverage/lcov.info",
     "create-warmup-schema": "node --env-file=.env src/utils/create-warmup-schema",
     "lint-staged": "lint-staged",
     "prepare": "husky",
