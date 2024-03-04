@@ -4,6 +4,14 @@ An API for communicating with a wifi-enabled home thermostat made by Warmup.
 
 ![Coverage Badge](./coverage-badge.svg)
 
+- [Using this library](#using-this-library)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Developing](#developing)
+  - [Regenerating the schema](#regenerating-the-schema)
+  - [Testing](#testing)
+
+
 ## Using this library
 
 ### Installation
@@ -35,7 +43,9 @@ The full Warmup GraphQL schema can be found [./warmup-schema.graphql](./warmup-s
 
 ## Developing
 
-### The schema, located at [./warmup-schema.graphql](./warmup-schema.graphql) can be regenerated at any time by running:
+### Regenerating the schema
+
+The schema, located at [./warmup-schema.graphql](./warmup-schema.graphql) can be regenerated at any time by running:
 
 ```sh
 npm run create-warmup-schema
