@@ -19,3 +19,363 @@ accept-language: en-gb
     "appId":"WARMUP_APP_ID"
   }
 }
+
+###
+
+POST https://apil.warmup.com/graphql
+content-type: application/json
+user-agent: WARMUP_APP,
+accept-encoding: br, gzip, deflate
+accept: */*
+connection: keep-alive
+content-type: application/json
+app-token: {{appToken}}
+app-version: 1.8.1
+accept-language: en-gb
+warmup-authorization: {{$dotenv AUTH_TOKEN}}
+
+{
+  "operationName": "introspect",
+  "query": "query introspect {\n  __schema {\n    types {\n      name\n    }\n  }\n}",
+  "variables": null
+}
+
+###
+
+POST https://apil.warmup.com/graphql
+content-type: application/json
+user-agent: WARMUP_APP,
+accept-encoding: br, gzip, deflate
+accept: */*
+connection: keep-alive
+content-type: application/json
+app-token: {{appToken}}
+app-version: 1.8.1
+accept-language: en-gb
+warmup-authorization: {{$dotenv AUTH_TOKEN}}
+
+{
+  "operationName": "introspect",
+  "query": "query introspect {\n  __schema {\n    queryType {\n      name\n    }\n  }\n}",
+  "variables": null
+}
+
+###
+
+POST https://apil.warmup.com/graphql
+content-type: application/json
+user-agent: WARMUP_APP,
+accept-encoding: br, gzip, deflate
+accept: */*
+connection: keep-alive
+content-type: application/json
+app-token: {{appToken}}
+app-version: 1.8.1
+accept-language: en-gb
+warmup-authorization: {{$dotenv AUTH_TOKEN}}
+
+{
+  "operationName": "introspect",
+  "query": "query introspect {\n  __schema {\n    mutationType {\n      name\n    }\n  }\n}",
+  "variables": null
+}
+
+###
+
+POST https://apil.warmup.com/graphql
+content-type: application/json
+user-agent: WARMUP_APP,
+accept-encoding: br, gzip, deflate
+accept: */*
+connection: keep-alive
+content-type: application/json
+app-token: {{appToken}}
+app-version: 1.8.1
+accept-language: en-gb
+warmup-authorization: {{$dotenv AUTH_TOKEN}}
+X-REQUEST-TYPE: GraphQL
+
+{
+  "operationName": "introspect",
+  "query": "fragment FullType on __Type {\n  kind\n  name\n  fields(includeDeprecated: true) {\n    name\n    args {\n      ...InputValue\n    }\n    type {\n      ...TypeRef\n    }\n    isDeprecated\n    deprecationReason\n  }\n  inputFields {\n    ...InputValue\n  }\n  interfaces {\n    ...TypeRef\n  }\n  enumValues(includeDeprecated: true) {\n    name\n    isDeprecated\n    deprecationReason\n  }\n  possibleTypes {\n    ...TypeRef\n  }\n}\nfragment InputValue on __InputValue {\n  name\n  type {\n    ...TypeRef\n  }\n  defaultValue\n}\nfragment TypeRef on __Type {\n  kind\n  name\n  ofType {\n    kind\n    name\n    ofType {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\nquery IntrospectionQuery {\n  __schema {\n    queryType {\n      name\n    }\n    mutationType {\n      name\n    }\n    types {\n      ...FullType\n    }\n    directives {\n      name\n      locations\n      args {\n        ...InputValue\n      }\n    }\n  }\n}",
+  "variables": null
+}
+
+###
+
+POST https://apil.warmup.com/graphql
+content-type: application/json
+user-agent: WARMUP_APP,
+accept-encoding: br, gzip, deflate
+accept: */*
+connection: keep-alive
+content-type: application/json
+app-token: {{appToken}}
+app-version: 1.8.1
+accept-language: en-gb
+warmup-authorization: {{$dotenv AUTH_TOKEN}}
+
+{
+  "operationName": "introspect",
+  "query": "query introspect($typeName: String!) {\n  __type(name: $typeName) {\n    name\n    description\n    fields {\n    name\n    description\n    type {\n      name\n      kind\n      ofType {\n        name\n        kind\n      }\n    }\n    }\n  }\n}",
+  "variables": {
+    "typeName": "HeatingMutation"
+  }
+}
+
+###
+
+POST https://apil.warmup.com/graphql
+content-type: application/json
+user-agent: WARMUP_APP,
+accept-encoding: br, gzip, deflate
+accept: */*
+connection: keep-alive
+content-type: application/json
+app-token: {{appToken}}
+app-version: 1.8.1
+accept-language: en-gb
+warmup-authorization: {{$dotenv AUTH_TOKEN}}
+X-REQUEST-TYPE: GraphQL
+
+query introspect {
+  serverDateTime
+  version {
+    minimum
+    recommended
+  }
+  trace
+  user {
+    created
+    id
+    email
+    visibility {
+      isEnabled
+      role
+      isLocked
+    }
+    passwordRequestedAt
+    policy {
+      isTermsOfUse
+      isPrivacyPolicy
+    }
+    loginInfo {
+      hasLoggedIn
+      lastLogin
+    }
+    tokenInfo {
+      apiToken
+      appToken
+      confirmationToken
+      apiTokenCreated
+      apiTokenUpdated
+      changeEmailToken
+      newEmail
+    }
+    userProfile {
+      email
+      name
+      firstName
+      lastName
+      title
+      contactNumber
+      emailHash
+      preferredLanguage
+      dateOfBirth
+    }
+    credentials {
+      isExpired
+      expiresAt
+    }
+    expires {
+      isExpired
+      expiresAt
+    }
+    access {
+      accessRequest
+      accessToken
+      accessGrant
+    }
+    brand
+    optInMarketing
+    mobileId
+    mobileNoticeCheck
+    betaStateInt
+    legacyToken
+    switchPlan
+    owned {
+      id
+      userId
+      name
+      rooms {
+        id
+        type
+        roomName
+        comfortTemp
+        currentTemp
+        mainTemp
+        mainLabel
+        secondaryTemp
+        secondaryLabel
+        sleepTemp
+        overrideDur
+        overrideTemp
+        fixedTemp
+        awayTemp
+        targetTemp
+        roomType
+        roomTypeStr
+        roomTypeInt
+        floorType
+        floorTypeInt
+        schedule
+        isMainRoom
+        availableLocationIds
+        availableFloorTypes
+        runMode
+        runModeInt
+        roomMode
+        roomModeInt
+        thermostat4ies {
+            created
+  updated
+  updatedPortal
+  id
+  userId
+  locationId
+  deviceSN
+  geoLocation {
+    latitude
+    longitude
+  }
+  geoProg
+  isActive
+  runMode
+  roomSettings {
+    mode
+    name
+    preset
+  }
+  passwordSet
+  pendingLast
+  flag
+  smartOverride
+  bgImageId
+  city
+  cityId
+  countryCode
+  timezone
+  roads
+  systemType
+  defaultUrl
+  appFw
+  wifiFw
+  airTemp
+  floor1Temp
+  floor2Temp
+  comfortTemp
+  sleep {
+    temperature
+    isActive
+    json
+  }
+  powerSource
+  type
+  systemTypeInt
+  heatingTarget
+  heatingTargetInt
+  homeBG
+  homeBGInt
+  homeStyle
+  homeStyleInt
+  isFaultAir
+  isFaultFloor1
+  isFaultFloor2
+  powerSourceInt
+  language
+  hasPolled
+  minTemp
+  maxTemp
+  currentTemp
+  lastPoll
+  availableLanguages
+  backgroundURL
+        }
+        isSleepActive
+        language
+        total
+        energy
+        cost
+        updated
+        created
+      }
+      devices {
+        created
+        updated
+        updatedPortal
+        id
+        userId
+        locationId
+        deviceSN
+      }
+    }
+    ownedMobiles {
+      id
+      userId
+      appId
+      appToken
+      source
+      protocol
+      partner
+      name
+      updated
+      created
+    }
+    defaultLocation {
+      id
+      userId
+      name
+      devices {
+        created
+        updated
+        updatedPortal
+        id
+        userId
+        locationId
+        deviceSN
+      }
+      settings {
+        mainRoom
+        isSmartGeo
+        isEnabled
+        isFahrenheit
+        isDefault
+        locMode
+        speedKPH
+        heatUpDPH
+      }
+      rooms {
+        id
+      }
+    }
+  }
+}
+
+{
+}
+
+###
+
+# mobile [AggregateMobile]
+# ownedMobiles [MobileDevice]
+# location(id: Int): Location
+# findLocation(rid: Int): Location
+# guestShares(lid: Int): [InviteLocationConfirmationEntity]
+# myShares(lid: Int): [LocationShareObject]
+# verifyPassword(pass: String!): Boolean
+# locations(id: Int): [Location]
+# betaState EnabledState
+# switchReports(switchId: Int): SwitchReport
+# switchProperties: AutoProperties
+# visibleDevice(serial: String!): String
+#   visibleDevice(serial: "C4AC59EDFD2C")
