@@ -25,6 +25,9 @@
     "typings": "npx tsc"
   },
   "types": "./dist/index.d.ts",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.20",
@@ -37,7 +40,6 @@
     "lcov-badge2": "^1.1.2",
     "lint-staged": "^15.2.2",
     "nock": "^13.5.3",
-    "node-fetch": "^3.3.2",
     "prettier": "^3.2.5",
     "prettier-package-json": "^2.8.0",
     "typescript": "^5.3.3"
