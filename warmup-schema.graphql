@@ -1,0 +1,3114 @@
+schema {
+  query: HeatingQuery
+  mutation: HeatingMutation
+}
+
+"""Warmup GraphQl"""
+type HeatingQuery {
+  """Current User"""
+  support: Support
+
+  """Server current UTC date and time [Y-m-d H:i:s] UTC"""
+  serverDateTime: String
+
+  """Current User"""
+  user: User
+
+  """Mobile version information"""
+  version: MainVersion
+
+  """Trace queries"""
+  trace: Json
+}
+
+"""support scheme"""
+type Support {
+  """List today's mutations"""
+  todayChanges(
+    """search by serial number"""
+    sn: String!
+  ): Json
+
+  """search users"""
+  users(
+    """search by email"""
+    email: String!
+
+    """limit listed rows"""
+    limit: Int
+  ): [User]
+
+  """user by id"""
+  user(
+    """get by id"""
+    id: Int!
+  ): User
+
+  """search rooms"""
+  rooms(
+    """search by serial number"""
+    sn: String!
+
+    """limit listed rows"""
+    limit: Int
+  ): [Room]
+
+  """room by id"""
+  room(
+    """get by id"""
+    id: Int!
+  ): Room
+
+  """latest room access records"""
+  latestRecords(
+    """search by serial number"""
+    sn: String!
+  ): [DeviceShortLog]
+
+  """Request Audience Token"""
+  getAudienceToken(
+    """Audience type"""
+    type: AudienceType
+
+    """type relevant data"""
+    data: String
+  ): Json
+
+  """Dashboard statistics"""
+  dashboard: DashboardStats
+
+  """search emails"""
+  emails(
+    """search by recipient"""
+    recipient: String
+
+    """search by userId"""
+    userId: Int
+
+    """limit listed rows"""
+    limit: Int
+  ): [EmailRecordEntity]
+
+  """email by id"""
+  email(
+    """get by id"""
+    id: Int!
+  ): EmailRecordEntity
+
+  """search vouchers"""
+  voucherBatch(
+    """search by voucher fragment"""
+    voucher: String
+
+    """search by userId"""
+    userId: Int
+
+    """limit listed rows"""
+    limit: Int
+
+    """product name (5iE default)"""
+    product: String
+
+    """Voucher batch id"""
+    batch: Int
+  ): [VoucherBatch]
+
+  """get device daily statistics"""
+  deviceStatistics(
+    """search by device serial number"""
+    sn: String!
+
+    """limit listed days 7 is default"""
+    limit: Int
+  ): [DeviceAccessStatistic]
+
+  """notes for customers"""
+  notes(
+    """customer user id"""
+    userId: Int!
+
+    """limit listed elements"""
+    limit: Int
+  ): [NoteEntity]
+
+  """notes for customers"""
+  feedback(
+    """feedback from YYYY-MM-DD"""
+    dateFrom: String
+
+    """limit listed rows"""
+    limit: Int
+  ): [AppFeedbackEntity]
+
+  """List user's Homeserve orders"""
+  homeserveOrders(
+    """Homeserve userId"""
+    userId: Int
+  ): Json
+
+  """get device state for the last 7 days"""
+  timeseries(
+    """device serial listed"""
+    sn: String!
+
+    """limit listed rows"""
+    limit: Int
+  ): Json
+}
+
+"""Json"""
+scalar Json
+
+""""""
+type User {
+  """created of User"""
+  created: String
+
+  """id of User"""
+  id: Int
+
+  """email of User"""
+  email: String
+
+  """visibility of User"""
+  visibility: UserVisibility
+
+  """passwordRequestedAt of User"""
+  passwordRequestedAt: String
+
+  """policy of User"""
+  policy: Policy
+
+  """loginInfo of User"""
+  loginInfo: LoginInfo
+
+  """tokenInfo of User"""
+  tokenInfo: UserTokenInfo
+
+  """userProfile of User"""
+  userProfile: UserProfile
+
+  """credentials of User"""
+  credentials: Expire
+
+  """expires of User"""
+  expires: Expire
+
+  """access of User"""
+  access: UserAccess
+
+  """brand of User"""
+  brand: Brand
+
+  """user opted in to marketing"""
+  optInMarketing: Boolean
+
+  """current mobile device id"""
+  mobileId: Int
+
+  """mobile notice counter and last check"""
+  mobileNoticeCheck: Json
+
+  """list of owned Locations"""
+  owned(
+    """set an id"""
+    id: Int
+  ): [Location]
+
+  """current logged in mobile device"""
+  mobile: [AggregateMobile]
+
+  """owner's mobiles"""
+  ownedMobiles: [MobileDevice]
+
+  """earliest Location created"""
+  defaultLocation: Location
+
+  """Get location by Id or default otherwise."""
+  location(
+    """set an id"""
+    id: Int
+  ): Location
+
+  """Get location by room id"""
+  findLocation(
+    """set an id"""
+    rid: Int
+  ): Location
+
+  """share location"""
+  guestShares(
+    """optional location id"""
+    lid: Int
+  ): [InviteLocationConfirmationEntity]
+
+  """list current user shares"""
+  myShares(
+    """optional location id"""
+    lid: Int
+  ): [LocationShareObject]
+
+  """User beta subscriptions"""
+  betaState: EnabledState
+
+  """User beta subscriptions Int"""
+  betaStateInt: Int
+
+  """list of Locations"""
+  locations(
+    """set an id"""
+    id: Int
+  ): [Location]
+
+  """check password validity"""
+  verifyPassword(
+    """verifiable password"""
+    pass: String!
+  ): Boolean
+
+  """Get Recent Warmup Authentication Token. Support gets an invalid token!"""
+  legacyToken: String
+
+  """Switch states"""
+  switchReports(
+    """switch id"""
+    switchId: Int
+  ): SwitchReport
+
+  """AutoSwitch properties"""
+  switchProperties: AutoProperties
+
+  """AutoSwitch Plan"""
+  switchPlan: Json
+
+  """device readable by user"""
+  visibleDevice(
+    """device serial number"""
+    serial: String!
+  ): String
+}
+
+""""""
+type UserVisibility {
+  """enabled of UserVisibility"""
+  isEnabled: Boolean
+
+  """role of UserVisibility"""
+  role: Json
+
+  """locked of UserVisibility"""
+  isLocked: Boolean
+}
+
+""""""
+type Policy {
+  """isTermsOfUse of Policy"""
+  isTermsOfUse: Boolean
+
+  """isPrivacyPolicy of Policy"""
+  isPrivacyPolicy: Boolean
+}
+
+""""""
+type LoginInfo {
+  """hasLoggedIn of LoginInfo"""
+  hasLoggedIn: Boolean
+
+  """lastLogin of LoginInfo"""
+  lastLogin: String
+}
+
+""""""
+type UserTokenInfo {
+  """apiToken of UserTokenInfo"""
+  apiToken: String
+
+  """appToken of UserTokenInfo"""
+  appToken: String
+
+  """confirmationToken of UserTokenInfo"""
+  confirmationToken: String
+
+  """apiTokenCreated of UserTokenInfo"""
+  apiTokenCreated: String
+
+  """apiTokenUpdated of UserTokenInfo"""
+  apiTokenUpdated: String
+
+  """changeEmailToken of UserTokenInfo"""
+  changeEmailToken: String
+
+  """newEmail of UserTokenInfo"""
+  newEmail: String
+}
+
+""""""
+type UserProfile {
+  """email of UserProfile"""
+  email: String
+
+  """name of UserProfile"""
+  name: String
+
+  """firstName of UserProfile"""
+  firstName: String
+
+  """lastName of UserProfile"""
+  lastName: String
+
+  """title of UserProfile"""
+  title: String
+
+  """contactNumber of UserProfile"""
+  contactNumber: String
+
+  """emailHash of UserProfile"""
+  emailHash: String
+
+  """preferredLanguage of UserProfile"""
+  preferredLanguage: SupportedLanguage
+
+  """dateOfBirth of UserProfile"""
+  dateOfBirth: String
+}
+
+""""""
+enum SupportedLanguage {
+  """UNDEFINED"""
+  undefined
+
+  """ENGLISH"""
+  en_GB
+
+  """FRENCH"""
+  fr_FR
+
+  """GERMAN"""
+  de_DE
+
+  """SPANISH"""
+  es_ES
+
+  """PORTUGUESE"""
+  pt_PT
+
+  """DUTCH"""
+  nl_NL
+
+  """CROATIAN"""
+  hr_HR
+
+  """ROMANIAN"""
+  ro_RO
+
+  """SLOVAKIAN"""
+  sk_SK
+
+  """POLISH"""
+  pl_PL
+}
+
+""""""
+type Expire {
+  """isExpired of Expire"""
+  isExpired: Boolean
+
+  """expiresAt of Expire"""
+  expiresAt: String
+}
+
+""""""
+type UserAccess {
+  """accessRequest of UserAccess"""
+  accessRequest: String
+
+  """accessToken of UserAccess"""
+  accessToken: String
+
+  """accessGrant of UserAccess"""
+  accessGrant: String
+}
+
+""""""
+enum Brand {
+  """WARMUP"""
+  warmup
+
+  """LATICRETE"""
+  laticrete
+
+  """ROINTE"""
+  rointe
+
+  """PORCELANOSA"""
+  porcelanosa
+
+  """EQUUS"""
+  equus
+
+  """SAVANT"""
+  savant
+
+  """OTHER"""
+  other
+}
+
+""""""
+type Location {
+  """id of Location"""
+  id: Int
+
+  """userId of Location"""
+  userId: Int
+
+  """name of Location"""
+  name: String
+
+  """settings of Location"""
+  settings: LocationSettings
+
+  """geoLocation of Location"""
+  geoLocation: GeoLocation
+
+  """address of Location"""
+  address: Address
+
+  """holiday of Location"""
+  holiday: Holiday
+
+  """tariffType of Location"""
+  tariffType: TariffType
+
+  """electricity of Location"""
+  electricity: Tariff
+
+  """gas of Location"""
+  gas: Tariff
+
+  """fence of Location"""
+  fence: Fence
+
+  """zone of Location"""
+  locZone: LocZone
+
+  """user is the owner"""
+  isOwner: Boolean
+
+  """get location mode"""
+  locMode: ValidLocationMode
+
+  """get location mode"""
+  locModeInt: Int
+
+  """list connected mobiles geoModes"""
+  mobiles: [AggregateMobile]
+
+  """user is the owner"""
+  fenceArray: Json
+
+  """get location mode"""
+  geoMode: GeoMode
+
+  """get location mode"""
+  geoModeInt: Int
+
+  """location mobile zone"""
+  zone: Int
+
+  """Is mobile moving towards location?"""
+  isHoming: Boolean
+
+  """list of Zones"""
+  room(
+    """set an id"""
+    id: Int!
+  ): Room
+
+  """list of Zones"""
+  rooms(
+    """set an id"""
+    id: Int
+  ): [Room]
+
+  """updated of Location"""
+  updated: String
+
+  """created of Location"""
+  created: String
+
+  """Get owner"""
+  owner: RestrictedUser
+
+  """list of Thermostat4iEs"""
+  devices(
+    """set an id"""
+    id: Int
+  ): [Thermostat4iE]
+}
+
+""""""
+type LocationSettings {
+  """mainRoom of LocationSettings"""
+  mainRoom: Int
+
+  """isSmartGeo of LocationSettings"""
+  isSmartGeo: Boolean
+
+  """isEnabled of LocationSettings"""
+  isEnabled: Boolean
+
+  """isFahrenheit of LocationSettings"""
+  isFahrenheit: Boolean
+
+  """isDefault of LocationSettings"""
+  isDefault: Boolean
+
+  """locMode of LocationSettings"""
+  locMode: LocationMode
+
+  """speedKPH of LocationSettings"""
+  speedKPH: Int
+
+  """heatUpDPH of LocationSettings"""
+  heatUpDPH: Int
+}
+
+""""""
+enum LocationMode {
+  """ON"""
+  on
+
+  """OFF"""
+  off
+
+  """FROST"""
+  frost
+}
+
+""""""
+type GeoLocation {
+  """latitude of GeoLocation"""
+  latitude: String
+
+  """longitude of GeoLocation"""
+  longitude: String
+}
+
+""""""
+type Address {
+  """owmCityId of Address"""
+  owmCityId: Int
+
+  """countryCode of Address"""
+  countryCode: String
+
+  """
+  timezone of Address (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+  """
+  timezone: String
+
+  """currency of Address"""
+  currency: Int
+
+  """address1 of Address"""
+  address1: String
+
+  """address2 of Address"""
+  address2: String
+
+  """town of Address"""
+  town: String
+
+  """postcode of Address"""
+  postcode: String
+}
+
+""""""
+type Holiday {
+  """holStart of Holiday"""
+  holStart: String
+
+  """holEnd of Holiday"""
+  holEnd: String
+
+  """holTemp of Holiday"""
+  holTemp: Int
+}
+
+""""""
+enum TariffType {
+  """SINGLE - only one source, electricity or gas"""
+  single
+
+  """DUAL - both electricity and gas"""
+  dual
+}
+
+""""""
+type Tariff {
+  """cost of Tariff (decimal /\d+(\.\d{1,5})?/)"""
+  cost: String
+
+  """low of Tariff (decimal /\d+(\.\d{1,5})?/)"""
+  low: String
+
+  """start of Tariff (time: (hh:mm) )"""
+  start: String
+
+  """end of Tariff (time: (hh:mm) )"""
+  end: String
+}
+
+""""""
+type Fence {
+  """offset of Fence"""
+  offset: String
+
+  """time of Fence"""
+  time: String
+}
+
+""""""
+type LocZone {
+  """zone of LocZone"""
+  zone: Int
+
+  """offset of LocZone"""
+  offset: String
+
+  """Is mobile moving towards location?"""
+  isHoming: Boolean
+
+  """time of LocZone"""
+  time: String
+}
+
+""""""
+enum ValidLocationMode {
+  """GEO"""
+  geo
+
+  """NOT_GEO"""
+  not_geo
+
+  """OFF"""
+  off
+
+  """FROST"""
+  frost
+
+  """HOLIDAY"""
+  holiday
+}
+
+""""""
+type AggregateMobile {
+  """id of MobileDevice"""
+  id: Int
+
+  """userId of MobileDevice"""
+  userId: Int
+
+  """appId of MobileDevice"""
+  appId: String
+
+  """source of MobileDevice"""
+  source: String
+
+  """protocol of MobileDevice"""
+  protocol: String
+
+  """partner of MobileDevice"""
+  partner: String
+
+  """name of MobileDevice"""
+  name: String
+
+  """geoMode of AggregateMobile"""
+  geoMode: GeoMode
+
+  """geoMode of AggregateMobile"""
+  geoModeInt: Int
+
+  """zone of AggregateMobile"""
+  zone: Int
+
+  """updated at"""
+  zoneUpdated: String
+
+  """Is mobile moving towards location?"""
+  isHoming: Boolean
+
+  """locationId of AggregateMobile"""
+  locationId: Int
+
+  """is this the current mobile"""
+  isCurrent: Boolean
+}
+
+""""""
+enum GeoMode {
+  """DISABLED"""
+  not_used
+
+  """ENABLED"""
+  used_visible
+
+  """INVISIBLE"""
+  used_invisible
+}
+
+""""""
+type Room {
+  """id of room"""
+  id: Int
+
+  """room device type"""
+  type: String
+
+  """room name"""
+  roomName: String
+
+  """room comfort temperature"""
+  comfortTemp: Int
+
+  """room current temperature"""
+  currentTemp: Int
+
+  """room main temperature"""
+  mainTemp: Int
+
+  """room main temperature label"""
+  mainLabel: String
+
+  """room secondary temperature"""
+  secondaryTemp: Int
+
+  """room secondary temperature label"""
+  secondaryLabel: String
+
+  """room sleep temperature"""
+  sleepTemp: Int
+
+  """override duration in minutes"""
+  overrideDur: Int
+
+  """override temperature"""
+  overrideTemp: Int
+
+  """fixed temperature"""
+  fixedTemp: Int
+
+  """room away temperature"""
+  awayTemp: Int
+
+  """room target temperature"""
+  targetTemp: Int
+
+  """room type enum"""
+  roomType: RoomType
+
+  """room type string"""
+  roomTypeStr: String
+
+  """room type int"""
+  roomTypeInt: Int
+
+  """room floor type"""
+  floorType: FloorType
+
+  """room floor type"""
+  floorTypeInt: Int
+
+  """room schedule"""
+  schedule: Json
+
+  """is main room"""
+  isMainRoom: Boolean
+
+  """owned locations"""
+  availableLocationIds: Json
+
+  """all FloorTypes"""
+  availableFloorTypes: Json
+
+  """room runMode"""
+  runMode: RunMode
+
+  """room runMode int"""
+  runModeInt: Int
+
+  """room mode"""
+  roomMode: RoomMode
+
+  """room mode int"""
+  roomModeInt: Int
+
+  """list of 4iEs"""
+  thermostat4ies: [Thermostat4iE]
+
+  """is sleep active"""
+  isSleepActive: Boolean
+
+  """Language"""
+  language: String
+
+  """energy total"""
+  total: Int
+
+  """energy total"""
+  energy: String
+
+  """energy total"""
+  cost: String
+
+  """energy consumption data"""
+  energyChart(
+    """year [2000 - 3000]"""
+    year: Int
+
+    """month [1 - 12]"""
+    month: Int
+
+    """day [1 - 31]"""
+    day: Int
+
+    """hour [0 - 23]"""
+    hour: Int
+  ): Json
+
+  """energy consumption data"""
+  legacyChart: Json
+
+  """energy consumption data extended"""
+  portalRoomChart: Json
+
+  """updated of Room"""
+  updated: String
+
+  """created of Room"""
+  created: String
+
+  """Room`s owner"""
+  owner: User
+
+  """Room`s location"""
+  parentLocation: Location
+}
+
+""""""
+enum RoomType {
+  """BATHROOM"""
+  bathroom
+
+  """BEDROOM"""
+  bedroom
+
+  """GENERAL"""
+  general
+
+  """KITCHEN"""
+  kitchen
+
+  """LIVING_ROOM"""
+  living_room
+}
+
+""""""
+enum FloorType {
+  """TILE_STONE"""
+  tile_stone
+
+  """LAMINATE"""
+  laminate
+
+  """CARPET"""
+  carpet
+
+  """WOOD"""
+  wood
+
+  """VINYL"""
+  vinyl
+
+  """USER_DEFINED"""
+  user_defined
+}
+
+""""""
+enum RunMode {
+  """NOT_SET"""
+  not_set
+
+  """OFF"""
+  off
+
+  """SCHEDULE"""
+  schedule
+
+  """OVERRIDE"""
+  override
+
+  """FIXED"""
+  fixed
+
+  """ANTI_FROST"""
+  anti_frost
+
+  """HOLIDAY"""
+  holiday
+
+  """FIL_PILOTE"""
+  fil_pilote
+
+  """GRADUAL"""
+  gradual
+
+  """RELAY"""
+  relay
+
+  """PREVIOUS"""
+  previous
+}
+
+""""""
+enum RoomMode {
+  """UNDEFINED"""
+  undefined
+
+  """PROGRAM"""
+  program
+
+  """FIXED"""
+  fixed
+}
+
+""""""
+type Thermostat4iE {
+  """created of Thermostat4iE"""
+  created: String
+
+  """updated of Thermostat4iE"""
+  updated: String
+
+  """updated portal"""
+  updatedPortal: String
+
+  """id of Thermostat4iE"""
+  id: Int
+
+  """userId of Thermostat4iE"""
+  userId: Int
+
+  """locationId of Thermostat4iE"""
+  locationId: Int
+
+  """deviceSN of Thermostat4iE"""
+  deviceSN: String
+
+  """geoLocation of Thermostat4iE"""
+  geoLocation: GeoLocation
+
+  """geoProg of Thermostat4iE"""
+  geoProg: Boolean
+
+  """active of Thermostat4iE"""
+  isActive: Boolean
+
+  """runMode of Thermostat4iE"""
+  runMode: RunMode
+
+  """room of Thermostat4iE"""
+  roomSettings: RoomSettings
+
+  """passwordSet of Thermostat4iE"""
+  passwordSet: Boolean
+
+  """pendingLast of Thermostat4iE"""
+  pendingLast: Json
+
+  """flag of Thermostat4iE"""
+  flag: Boolean
+
+  """smartOverride of Thermostat4iE"""
+  smartOverride: Json
+
+  """parameters of Thermostat4iE"""
+  parameters: ParametersWithChange
+
+  """bgImageId of Thermostat4iE"""
+  bgImageId: Int
+
+  """city of Thermostat4iE"""
+  city: String
+
+  """cityId of Thermostat4iE"""
+  cityId: Int
+
+  """countryCode of Thermostat4iE"""
+  countryCode: String
+
+  """timezone of Thermostat4iE"""
+  timezone: String
+
+  """roads of Thermostat4iE"""
+  roads: String
+
+  """systemType of Thermostat4iE"""
+  systemType: SystemType
+
+  """defaultUrl of Thermostat4iE"""
+  defaultUrl: String
+
+  """appFw of Thermostat4iE"""
+  appFw: String
+
+  """wifiFw of Thermostat4iE"""
+  wifiFw: String
+
+  """airTemp of Thermostat4iE"""
+  airTemp: String
+
+  """floor1Temp of Thermostat4iE"""
+  floor1Temp: String
+
+  """floor2Temp of Thermostat4iE"""
+  floor2Temp: String
+
+  """comfortTemp of Thermostat4iE"""
+  comfortTemp: String
+
+  """sleep of Thermostat4iE"""
+  sleep: Sleep
+
+  """powerSource of Thermostat4iE"""
+  powerSource: PowerSource
+
+  """Thermostat kind"""
+  type: String
+
+  """systemType of Thermostat4iE"""
+  systemTypeInt: Int
+
+  """is sleep active"""
+  heatingTarget: HeatingTarget
+
+  """is sleep active"""
+  heatingTargetInt: Int
+
+  """home background enum"""
+  homeBG: HomeBackground
+
+  """home background enum"""
+  homeBGInt: Int
+
+  """is sleep active"""
+  homeStyle: HomeStyle
+
+  """homeStyle"""
+  homeStyleInt: Int
+
+  """fault air"""
+  isFaultAir: Boolean
+
+  """fault floor1"""
+  isFaultFloor1: Boolean
+
+  """fault floor2"""
+  isFaultFloor2: Boolean
+
+  """powerSource of Thermostat4iE"""
+  powerSourceInt: Int
+
+  """room language"""
+  language: String
+
+  """room language"""
+  hasPolled: Boolean
+
+  """room language"""
+  minTemp: Int
+
+  """room language"""
+  maxTemp: Int
+
+  """room language"""
+  currentTemp: Int
+
+  """last poll in minutes"""
+  lastPoll: Int
+
+  """last poll in minutes"""
+  availableLanguages: Json
+
+  """get 4iE background URL"""
+  backgroundURL: String
+}
+
+""""""
+type RoomSettings {
+  """mode of RoomSettings"""
+  mode: RoomMode
+
+  """name of RoomSettings"""
+  name: String
+
+  """preset of RoomSettings"""
+  preset: RoomType
+}
+
+""""""
+type ParametersWithChange {
+  """changes of ParametersWithChange"""
+  changes: Json
+
+  """deviceSN of Parameters"""
+  deviceSN: String
+
+  """fwVer of Parameters"""
+  fwVer: String
+
+  """upTime of Parameters"""
+  upTime: Int
+
+  """rssi of Parameters"""
+  rssi: String
+
+  """sync of Parameters"""
+  sync: Int
+
+  """defaultUrl of Parameters"""
+  defaultUrl: String
+
+  """pollRate of Parameters"""
+  pollRate: Int
+
+  """airTemp of Parameters"""
+  airTemp: Int
+
+  """floor1Temp of Parameters"""
+  floor1Temp: Int
+
+  """floor2Temp of Parameters"""
+  floor2Temp: Int
+
+  """outputStatus of Parameters"""
+  outputStatus: Int
+
+  """targetTemp of Parameters"""
+  targetTemp: String
+
+  """targetDuty of Parameters"""
+  targetDuty: String
+
+  """totalOnTtl of Parameters"""
+  totalOnTtl: String
+
+  """totalOnLow of Parameters"""
+  totalOnLow: Int
+
+  """faultAir of Parameters"""
+  faultAir: Boolean
+
+  """faultFloor1 of Parameters"""
+  faultFloor1: Boolean
+
+  """faultFloor2 of Parameters"""
+  faultFloor2: Boolean
+
+  """faultSystem of Parameters"""
+  faultSystem: Int
+
+  """localTime of Parameters"""
+  localTime: Int
+
+  """runMode of Parameters"""
+  runMode: Int
+
+  """holidayTemp of Parameters"""
+  holidayTemp: Int
+
+  """holidayDuty of Parameters"""
+  holidayDuty: Int
+
+  """holidayStart of Parameters"""
+  holidayStart: Int
+
+  """holidayEnd of Parameters"""
+  holidayEnd: Int
+
+  """setbackTemp of Parameters"""
+  setbackTemp: Int
+
+  """overrideTemp of Parameters"""
+  overrideTemp: Int
+
+  """fixedTemp of Parameters"""
+  fixedTemp: Int
+
+  """setbackDuty of Parameters"""
+  setbackDuty: Int
+
+  """overrideDuty of Parameters"""
+  overrideDuty: Int
+
+  """fixedDuty of Parameters"""
+  fixedDuty: Int
+
+  """overrideDur of Parameters"""
+  overrideDur: Int
+
+  """heatingTarget of Parameters"""
+  heatingTarget: Int
+
+  """controlMethod of Parameters"""
+  controlMethod: Int
+
+  """adaptLearn of Parameters"""
+  adaptLearn: Int
+
+  """tempFormat of Parameters"""
+  tempFormat: Int
+
+  """timeFormat of Parameters"""
+  timeFormat: Int
+
+  """dateFormat of Parameters"""
+  dateFormat: String
+
+  """lang of Parameters"""
+  lang: Int
+
+  """brightness of Parameters"""
+  brightness: Int
+
+  """brightnessStdby of Parameters"""
+  brightnessStdby: Int
+
+  """audio of Parameters"""
+  audio: Int
+
+  """homeBG of Parameters"""
+  homeBG: Int
+
+  """homeStyle of Parameters"""
+  homeStyle: Int
+
+  """lock of Parameters"""
+  lock: Int
+
+  """lockCode of Parameters"""
+  lockCode: Int
+
+  """systemType of Parameters"""
+  systemType: Int
+
+  """systemPower of Parameters"""
+  systemPower: Int
+
+  """efficiency of Parameters"""
+  efficiency: Int
+
+  """tariff1 of Parameters"""
+  tariff1: Int
+
+  """tariff2 of Parameters"""
+  tariff2: Int
+
+  """currency of Parameters"""
+  currency: Int
+
+  """tariff2Start of Parameters"""
+  tariff2Start: String
+
+  """tariff2End of Parameters"""
+  tariff2End: String
+
+  """floorType of Parameters"""
+  floorType: Int
+
+  """progMin of Parameters"""
+  progMin: Int
+
+  """progMax of Parameters"""
+  progMax: Int
+
+  """overheatLimitAir of Parameters"""
+  overheatLimitAir: Int
+
+  """overheatLimitFloor of Parameters"""
+  overheatLimitFloor: Int
+
+  """tPID of Parameters"""
+  tPID: Int
+
+  """tPWM of Parameters"""
+  tPWM: Int
+
+  """offsetAir of Parameters"""
+  offsetAir: String
+
+  """offsetFloor1 of Parameters"""
+  offsetFloor1: String
+
+  """offsetFloor2 of Parameters"""
+  offsetFloor2: String
+
+  """ntcTypeFloor1 of Parameters"""
+  ntcTypeFloor1: Int
+
+  """ntcTypeFloor2 of Parameters"""
+  ntcTypeFloor2: Int
+
+  """probeApp of Parameters"""
+  probeApp: Int
+
+  """extType of Parameters"""
+  extType: Int
+
+  """gradTemp of Parameters"""
+  gradTemp: Int
+
+  """gradDur of Parameters"""
+  gradDur: Int
+
+  """fpComfTemp of Parameters"""
+  fpComfTemp: Int
+
+  """fpEconTemp of Parameters"""
+  fpEconTemp: Int
+
+  """fpAFTemp of Parameters"""
+  fpAFTemp: Int
+
+  """weather of Parameters"""
+  weather: Json
+
+  """text1 of Parameters"""
+  text1: Json
+
+  """text2 of Parameters"""
+  text2: Json
+
+  """schedule of Parameters"""
+  schedule: Json
+}
+
+""""""
+enum SystemType {
+  """ELECTRIC"""
+  electric
+
+  """HYDRONIC"""
+  hydronic
+
+  """CONVENTIONAL"""
+  conventional
+
+  """ELECTRIC_RELAY"""
+  electric_relay
+}
+
+""""""
+type Sleep {
+  """temperature of Sleep"""
+  temperature: Int
+
+  """isActive of Sleep"""
+  isActive: Boolean
+
+  """json of Sleep"""
+  json: Json
+}
+
+""""""
+enum PowerSource {
+  """ELECTRICITY"""
+  electricity
+
+  """GAS"""
+  gas
+}
+
+""""""
+enum HeatingTarget {
+  """FLOOR"""
+  floor
+
+  """AIR"""
+  air
+}
+
+""""""
+enum HomeBackground {
+  """LIGHT"""
+  light
+
+  """DARK"""
+  dark
+
+  """PURE_BLACK"""
+  pure_black
+
+  """USER_UPLOADED"""
+  user_uploaded
+}
+
+""""""
+enum HomeStyle {
+  """TEMPERATURE"""
+  temperature
+
+  """TIME"""
+  time
+
+  """FLIPPING_CLOCK"""
+  flipping_clock
+
+  """MINIMALIST"""
+  minimalist
+}
+
+""""""
+type RestrictedUser {
+  """created of User"""
+  created: String
+
+  """id of User"""
+  id: Int
+
+  """email of User"""
+  email: String
+
+  """firstName of UserProfile"""
+  firstName: String
+
+  """lastName of UserProfile"""
+  lastName: String
+
+  """brand of User"""
+  brand: Brand
+}
+
+""""""
+type MobileDevice {
+  """id of MobileDevice"""
+  id: Int
+
+  """userId of MobileDevice"""
+  userId: Int
+
+  """appId of MobileDevice"""
+  appId: String
+
+  """appToken of MobileDevice"""
+  appToken: String
+
+  """source of MobileDevice"""
+  source: String
+
+  """protocol of MobileDevice"""
+  protocol: String
+
+  """partner of MobileDevice"""
+  partner: String
+
+  """name of MobileDevice"""
+  name: String
+
+  """updated of MobileDevice"""
+  updated: String
+
+  """created of MobileDevice"""
+  created: String
+}
+
+""""""
+type InviteLocationConfirmationEntity {
+  """ownerId of InviteLocationConfirmationEntity"""
+  ownerId: String
+
+  """locationId of InviteLocationConfirmationEntity"""
+  locationId: String
+
+  """invitedEmail of InviteLocationConfirmationEntity"""
+  invitedEmail: String
+
+  """brand of InviteLocationConfirmationEntity"""
+  brand: Brand
+
+  """Get location associated with this share"""
+  location: Location
+}
+
+""""""
+type LocationShareObject {
+  """owner of LocationShareObject"""
+  owner: String
+
+  """locationId of LocationShareObject"""
+  locationId: String
+
+  """joinerId of LocationShareObject"""
+  joinerId: String
+
+  """Get location associated with this share"""
+  location: Location
+
+  """joiner email"""
+  joinerEmail: String
+}
+
+""""""
+enum EnabledState {
+  """NONE"""
+  none
+
+  """I_OS"""
+  i_os
+
+  """ANDROID"""
+  android
+
+  """BOTH"""
+  both
+}
+
+""""""
+type SwitchReport {
+  """id of SwitchReport"""
+  id: Int
+
+  """switchId of SwitchReport"""
+  switchId: Int
+
+  """state of SwitchReport"""
+  state: SwitchState
+
+  """note of SwitchReport"""
+  note: String
+
+  """reportDate of SwitchReport"""
+  reportDate: String
+
+  """confirmedAt of SwitchReport"""
+  confirmedAt: String
+
+  """createdAt of SwitchReport"""
+  createdAt: String
+}
+
+""""""
+enum SwitchState {
+  """APPROVED"""
+  approved
+
+  """CANCELLED"""
+  cancelled
+
+  """PENDING"""
+  pending
+
+  """SWITCHED"""
+  switched
+
+  """SWITCH_FAILED"""
+  switch_failed
+}
+
+""""""
+type AutoProperties {
+  """isEnabled of AutoProperties"""
+  isEnabled: Boolean
+
+  """userId of AutoProperties"""
+  userId: Int
+
+  """0 <= minimumSavings of AutoProperties"""
+  minimumSavings: Int
+
+  """0 <= frequencyInMonths <= 12 of AutoProperties"""
+  frequencyInMonths: Int
+
+  """createdAt of AutoProperties"""
+  createdAt: String
+
+  """Get user"""
+  user: RestrictedUser
+}
+
+""""""
+type DeviceShortLog {
+  """processTime of DeviceShortLog"""
+  processTime: String
+
+  """statusCode of DeviceShortLog"""
+  statusCode: String
+
+  """request of DeviceShortLog"""
+  request: Json
+
+  """response of DeviceShortLog"""
+  response: Json
+
+  """created of DeviceShortLog"""
+  created: String
+}
+
+""""""
+enum AudienceType {
+  """DEVICE_ACCESS"""
+  device_access
+}
+
+"""Dashboard statistics"""
+type DashboardStats {
+  """device statistics"""
+  deviceStats(
+    """brand filter (default agent's brand)"""
+    brand: BrandInput
+  ): Json
+
+  """user statistics"""
+  userStats(
+    """brand filter (default agent's brand)"""
+    brand: BrandInput
+  ): Json
+
+  """general statistic"""
+  general(
+    """brand filter (default agent's brand)"""
+    brand: BrandInput
+  ): GeneralStatistic
+
+  """device firmware versions"""
+  appFw(
+    """brand filter (default agent's brand)"""
+    brand: BrandInput
+  ): Json
+
+  """system types"""
+  systemTypes(
+    """brand filter (default agent's brand)"""
+    brand: BrandInput
+  ): Json
+
+  """access Day Stats"""
+  accessDay(
+    """brand filter (default agent's brand)"""
+    brand: BrandInput
+  ): [AccessDay]
+
+  """Elastic Load Balancer Statistics"""
+  elbStats: Json
+}
+
+""""""
+enum BrandInput {
+  """WARMUP"""
+  warmup
+
+  """LATICRETE"""
+  laticrete
+
+  """ROINTE"""
+  rointe
+
+  """PORCELANOSA"""
+  porcelanosa
+
+  """EQUUS"""
+  equus
+
+  """SAVANT"""
+  savant
+
+  """OTHER"""
+  other
+
+  """ALL"""
+  all
+
+  """INHERITED"""
+  inherited
+}
+
+""""""
+type GeneralStatistic {
+  """registered of GeneralStatistic"""
+  registered: String
+
+  """countryCodes of GeneralStatistic"""
+  countryCodes: String
+
+  """urls of GeneralStatistic"""
+  urls: String
+
+  """appFws of GeneralStatistic"""
+  appFws: String
+
+  """passwordSet of GeneralStatistic"""
+  passwordSet: String
+
+  """users of GeneralStatistic"""
+  users: String
+
+  """updatedToday of GeneralStatistic"""
+  updatedToday: String
+
+  """registeredToday of GeneralStatistic"""
+  registeredToday: String
+
+  """timezones of GeneralStatistic"""
+  timezones: String
+
+  """cities of GeneralStatistic"""
+  cities: String
+}
+
+""""""
+type AccessDay {
+  """devicesActive of AccessDay"""
+  devicesActive: String
+
+  """counterCreated of AccessDay"""
+  counterCreated: Int
+
+  """pTimeAverage of AccessDay"""
+  pTimeAverage: String
+}
+
+""""""
+type EmailRecordEntity {
+  """userId of EmailRecordEntity"""
+  userId: Int
+
+  """emailType of EmailRecordEntity"""
+  emailType: EmailType
+
+  """recipient of EmailRecordEntity"""
+  recipient: String
+
+  """subject of EmailRecordEntity"""
+  subject: String
+
+  """content of EmailRecordEntity"""
+  content: String
+
+  """statusCode of EmailRecordEntity"""
+  statusCode: String
+
+  """headers of EmailRecordEntity"""
+  headers: String
+
+  """returnedBody of EmailRecordEntity"""
+  returnedBody: String
+
+  """id of EmailRecordEntity"""
+  id: Int
+
+  """createdAt of EmailRecordEntity"""
+  createdAt: String
+
+  """brand of EmailRecordEntity"""
+  brand: Brand
+
+  """Get owner"""
+  owner: RestrictedUser
+}
+
+""""""
+enum EmailType {
+  """FORGOTTEN_PASSWORD"""
+  forgotten_password
+
+  """CHANGE_EMAIL"""
+  change_email
+
+  """INVITE_SHARE_LOCATION"""
+  invite_share_location
+
+  """REMOVE_SHARE_LOCATION"""
+  remove_share_location
+
+  """REGISTER"""
+  register
+
+  """FORGOTTEN_PASSWORD_SWITCH"""
+  forgotten_password_switch
+
+  """REGISTER_SWITCH"""
+  register_switch
+
+  """ACCOUNT_RECOVERY"""
+  account_recovery
+
+  """TEST"""
+  test
+}
+
+""""""
+type VoucherBatch {
+  """product of VoucherBatch"""
+  product: HomeserveProduct
+
+  """vendor of VoucherBatch"""
+  vendor: String
+
+  """volume of VoucherBatch"""
+  volume: String
+
+  """createdAt of VoucherBatch"""
+  createdAt: String
+
+  """expiresAt of VoucherBatch"""
+  expiresAt: String
+
+  """id of VoucherBatch"""
+  id: Int
+
+  """list vouchers"""
+  vouchers: [Voucher]
+
+  """number of redeemed vouchers in the batch"""
+  redeemed: Int
+}
+
+""""""
+enum HomeserveProduct {
+  """WARMUP_5IE"""
+  warmup_5ie
+
+  """DEMO_INSTALL"""
+  demo_install
+}
+
+""""""
+type Voucher {
+  """voucher of Voucher"""
+  voucher: String
+
+  """batchId of Voucher"""
+  batchId: Int
+
+  """userId of Voucher"""
+  userId: Int
+
+  """redeemedAt of Voucher"""
+  redeemedAt: String
+
+  """id of Voucher"""
+  id: Int
+
+  """get user profile"""
+  userProfile: UserProfile
+}
+
+""""""
+type DeviceAccessStatistic {
+  """deviceSN of DeviceAccessStatistic"""
+  deviceSN: String
+
+  """dayOfYear of DeviceAccessStatistic"""
+  dayOfYear: String
+
+  """year of DeviceAccessStatistic"""
+  year: String
+
+  """polls of DeviceAccessStatistic"""
+  polls: String
+
+  """responseSuccess of DeviceAccessStatistic"""
+  responseSuccess: String
+
+  """responseNotSuccess of DeviceAccessStatistic"""
+  responseNotSuccess: String
+
+  """createdUnix of DeviceAccessStatistic"""
+  createdUnix: String
+}
+
+""""""
+type NoteEntity {
+  """customerId of NoteEntity"""
+  customerId: Int
+
+  """supportId of NoteEntity"""
+  supportId: Int
+
+  """note of NoteEntity"""
+  note: String
+
+  """createdAt of NoteEntity"""
+  createdAt: String
+
+  """id of NoteEntity"""
+  id: Int
+
+  """Get note customer"""
+  customer: User
+}
+
+""""""
+type AppFeedbackEntity {
+  """userId of AppFeedbackEntity"""
+  userId: Int
+
+  """mobileId of AppFeedbackEntity"""
+  mobileId: Int
+
+  """clientId of AppFeedbackEntity"""
+  clientId: ClientID
+
+  """rating of AppFeedbackEntity"""
+  rating: String
+
+  """feedback of AppFeedbackEntity"""
+  feedback: String
+
+  """operatingDevice of AppFeedbackEntity"""
+  operatingDevice: String
+
+  """operatingSystem of AppFeedbackEntity"""
+  operatingSystem: String
+
+  """brand of AppFeedbackEntity"""
+  brand: Brand
+
+  """version of AppFeedbackEntity"""
+  versionObject: AppVersion
+
+  """language of AppFeedbackEntity"""
+  language: String
+
+  """created of AppFeedbackEntity"""
+  created: String
+
+  """compact version """
+  version: String
+
+  """Get user"""
+  user: RestrictedUser
+}
+
+""""""
+enum ClientID {
+  """PRIVATE"""
+  private
+
+  """PASSWORD"""
+  password
+
+  """AMAZON_ALEXA_WARMUP"""
+  amazon_alexa_warmup
+
+  """IFTTT_WARMUP"""
+  ifttt_warmup
+
+  """GRAPHIQL"""
+  graphiql
+
+  """LIGHTWAVE"""
+  lightwave
+
+  """APIQL"""
+  apiql
+
+  """LIGHTWAVE_TEST"""
+  lightwave_test
+
+  """WARMUP"""
+  warmup
+
+  """LATICRETE"""
+  laticrete
+
+  """CONTROL4"""
+  control4
+
+  """EASY_SWITCH"""
+  easy_switch
+
+  """ROINTE"""
+  rointe
+
+  """GOOGLE"""
+  google
+
+  """PORCELANOSA"""
+  porcelanosa
+
+  """SAVANT"""
+  savant
+
+  """EQUUS"""
+  equus
+}
+
+""""""
+type AppVersion {
+  """major of AppVersion"""
+  major: String
+
+  """minor of AppVersion"""
+  minor: String
+
+  """maintenance of AppVersion"""
+  maintenance: String
+}
+
+"""Mobile versions"""
+type MainVersion {
+  """Minimum mobile application version"""
+  minimum: String
+
+  """Recommended mobile application version"""
+  recommended: String
+}
+
+"""Warmup GraphQl mutation"""
+type HeatingMutation {
+  """remove invited guest"""
+  removeGuestShare(
+    """location ID"""
+    lid: Int
+
+    """invited email address"""
+    email: String
+  ): Boolean
+
+  """remove active location shares"""
+  removeMyShare(
+    """location ID"""
+    lid: Int
+
+    """invited email address"""
+    email: String
+  ): Boolean
+
+  """Update user's lastLogin field"""
+  portalLogin: Boolean
+
+  """share location"""
+  shareLocation(
+    """location ID"""
+    lid: Int
+
+    """email"""
+    email: String
+  ): [InviteLocationConfirmationEntity]
+
+  """change password"""
+  changePassword(
+    """old password"""
+    oldPassword: String
+
+    """new password"""
+    newPassword: String
+
+    """confirm new password"""
+    confirmPassword: String
+  ): User
+
+  """change email"""
+  changeEmail(
+    """new email"""
+    newEmail: String
+
+    """current email"""
+    currentEmail: String
+
+    """confirm new password"""
+    password: String
+  ): Boolean
+
+  """reset mobile name"""
+  resetMobileName(
+    """Mobile Id"""
+    mobileId: Int
+  ): Boolean
+
+  """update user profile"""
+  updateProfile(
+    """first name"""
+    firstName: String
+
+    """last name"""
+    lastName: String
+
+    """title"""
+    title: String
+
+    """land line or mobile number"""
+    contactNumber: String
+
+    """date of birth (YYYY-mm-dd)"""
+    dateOfBirth: String
+
+    """preferred language"""
+    language: SupportedLanguage
+  ): User
+
+  """Increment or register mobile notice! return count of dismiss."""
+  dismissNotice: Int
+
+  """Remove user from the system!"""
+  removeMe(
+    """Security password"""
+    password: String!
+  ): Boolean
+
+  """Alexa AcceptGrant endpoint!"""
+  acceptGrant(
+    """Access Code"""
+    code: String!
+
+    """aws region - can be empty, default eu-west-1 source: .env"""
+    region: String
+  ): Json
+
+  """Add Alexa Endpoints"""
+  addEndpoints(
+    """Endpoint list ["lid":["rid1","rid2"]]"""
+    eps: String!
+  ): Boolean
+
+  """add the initiated switch attributes"""
+  addSwitch(
+    """switch id"""
+    switchId: Int
+
+    """tariff id"""
+    tariffId: Int
+
+    """tariff name"""
+    tariffName: String
+
+    """supplier id"""
+    supplierId: Int
+
+    """supplier name"""
+    supplierName: String
+
+    """supplier logo"""
+    supplierLogo: String
+
+    """savings"""
+    savings: String
+  ): SwitchSnapshot
+
+  """set auto switch preferences"""
+  setAutoPreferences(
+    """savings"""
+    savings: Int
+
+    """frequency in months"""
+    frequency: Int
+
+    """enabled auto switch"""
+    enabled: Boolean
+  ): AutoProperties
+
+  """update switch report state"""
+  updateSwitchReport(
+    """switch id"""
+    switchId: Int
+
+    """new state"""
+    state: SwitchState
+  ): User
+
+  """update switch plan"""
+  addSwitchPlan(
+    """update user plan"""
+    plan: String
+  ): Json
+
+  """cancel switch"""
+  cancelSwitch(
+    """switch id"""
+    switchId: Int
+  ): User
+
+  """Send validation pin to the logged in user mobile"""
+  sendSmsPin: Boolean
+
+  """Validate sms pin with the latest sms record"""
+  validatePin(
+    """sms pin, digits only (6)"""
+    pin: String
+  ): Boolean
+
+  """Creating a new user requires an elevated permission!"""
+  addUser(
+    """email"""
+    email: String!
+
+    """at least 8 character length and 1 number symbol"""
+    password: String!
+
+    """salutation"""
+    title: String
+
+    """forename"""
+    firstName: String
+
+    """surname"""
+    lastName: String
+
+    """language"""
+    language: SupportedLanguage
+
+    """date of birth (YYYY-MM-DD)"""
+    dateOfBirth: String
+
+    """contact number"""
+    contactNumber: String
+  ): User
+
+  """Add device"""
+  addDevice(
+    """Parent location id"""
+    lid: Int!
+
+    """Thermostat serial number (length:15)"""
+    serial: String!
+
+    """Name, identifiable by User"""
+    name: String!
+
+    """floor type"""
+    floorType: FloorType!
+
+    """room type"""
+    roomType: RoomType!
+
+    """system type"""
+    systemType: SystemType!
+
+    """system power (400000(others) - 4000(electric) - 0)"""
+    systemPower: Int!
+
+    """power source"""
+    powerSource: PowerSource!
+
+    """device type (4ie 6ie rsw)"""
+    type: DeviceType
+  ): Room
+
+  """Remove thermostat"""
+  deleteDevice(
+    """Parent location id"""
+    lid: Int!
+
+    """Thermostat id"""
+    rid: Int!
+  ): Boolean
+
+  """Turn room off (frost)"""
+  turnOff(
+    """location ID"""
+    lid: Int
+
+    """room ID"""
+    rid: Int
+  ): Room
+
+  """Turn room on"""
+  turnOn(
+    """location ID"""
+    lid: Int
+
+    """room ID"""
+    rid: Int
+  ): Room
+
+  """Delta room temperature(signed)"""
+  deltaTemperature(
+    """location ID"""
+    lid: Int
+
+    """room ID"""
+    rid: Int
+
+    """Temperature * 10"""
+    temperature: Int
+
+    """Temperature * 10"""
+    delta: Int
+  ): Thermostat4iE
+
+  """Set room temperature"""
+  setTemperature(
+    """location ID"""
+    lid: Int
+
+    """room ID"""
+    rid: Int
+
+    """Temperature * 10"""
+    temperature: Int
+
+    """Temperature * 10"""
+    delta: Int
+  ): Thermostat4iE
+
+  """update sleep parameters"""
+  updateSleep(
+    """location ID"""
+    lid: Int
+
+    """room ID"""
+    rid: Int
+
+    """Is sleep active?"""
+    sleepActive: Boolean
+
+    """Sleep temperature (Celsius*10)"""
+    sleepTemp: Int
+
+    """
+    Sleep json string:  {"(DayOfWeek)":[{"start":"(HH:MM)","end":"(HH:MM)"}]} DayOfWeek:int starts with 0 as Sunday, 1 is Monday.
+    """
+    sleep: String
+  ): Room
+
+  """set room mode"""
+  setRoomMode(
+    """location ID"""
+    lid: Int
+
+    """room ID"""
+    rid: Int
+
+    """RoomMode"""
+    roomMode: RoomMode!
+  ): Room
+
+  """set comfort temperature"""
+  setComfortTemp(
+    """location ID"""
+    lid: Int
+
+    """room ID"""
+    rid: Int
+
+    """Comfort temperature (Celsius*10)"""
+    comfTemp: Int!
+  ): Room
+
+  """cancel Override"""
+  cancelOverride(
+    """location ID"""
+    lid: Int
+
+    """room ID"""
+    rid: Int
+  ): Room
+
+  """cancel all rooms override"""
+  cancelAllOverrides(
+    """location ID"""
+    lid: Int
+  ): Boolean
+
+  """Turn off thermostat"""
+  deviceOff(
+    """location ID"""
+    lid: Int!
+
+    """room ID"""
+    rid: Int
+  ): Boolean
+
+  """Set frost mode on thermostat"""
+  deviceFrost(
+    """location ID"""
+    lid: Int!
+
+    """room ID"""
+    rid: Int
+  ): Boolean
+
+  """Set program mode on thermostat"""
+  deviceProgram(
+    """location ID"""
+    lid: Int!
+
+    """room ID"""
+    rid: Int
+  ): Boolean
+
+  """Set fixed mode on thermostat"""
+  deviceFixed(
+    """location ID"""
+    lid: Int!
+
+    """room ID"""
+    rid: Int
+
+    """Temperature * 10"""
+    temperature: Int
+  ): Boolean
+
+  """Set fixed mode on thermostat"""
+  deviceOverride(
+    """location ID"""
+    lid: Int!
+
+    """room ID"""
+    rid: Int
+
+    """Temperature * 10"""
+    temperature: Int!
+
+    """Minutes (1440 - 0)"""
+    minutes: Int!
+  ): Boolean
+
+  """set schedule on specified device"""
+  deviceSchedule(
+    """location ID"""
+    lid: Int!
+
+    """room ID"""
+    rid: Int
+
+    """
+    json string:  {"(DayOfWeek)":[{"start":"(HH:MM)","end":"(HH:MM)","temp":(int)}]}     DayOfWeek:int starts with 0 as Sunday, 1 is Monday.   temp: Int = Celsius*10
+    """
+    schedule: String!
+  ): Room
+
+  """Modify thermostat"""
+  deviceAdvanced(
+    """location ID"""
+    lid: Int!
+
+    """room ID"""
+    rid: Int
+
+    """audio on/off"""
+    audioOn: Boolean
+
+    """background option"""
+    background: HomeBackground
+
+    """brightness (0-10)"""
+    brightness: Int
+
+    """brightness standby (0-10)"""
+    brightnessStandby: Int
+
+    """compensate against thermal inertia"""
+    earlyStart: Boolean
+
+    """external type"""
+    externalType: ExternalTerminalFunction
+
+    """floor probe type"""
+    floorProbe: FloorSensorType
+
+    """external probe type"""
+    externalProbe: FloorSensorType
+
+    """floor type"""
+    floorType: FloorType
+
+    """heating target focus"""
+    heatingTarget: HeatingTarget
+
+    """language"""
+    language: Language
+
+    """lock (screen?)"""
+    lock: Boolean
+
+    """new location id"""
+    newLocationId: Int
+
+    """device name"""
+    name: String
+
+    """air offset temperature *10 (-100,100)"""
+    offsetAir: Int
+
+    """floor 1 offset temperature *10 (-100,100)"""
+    offsetFloor1: Int
+
+    """floor 2 offset temperature *10 (-100,100)"""
+    offsetFloor2: Int
+
+    """power source"""
+    powerSource: PowerSource
+
+    """(probeApp)"""
+    probeApp: DisplayedProbe
+
+    """regulator type (control method)"""
+    regulator: RegulatorType
+
+    """setback temperature * 10"""
+    setback: Int
+
+    """style"""
+    style: HomeStyle
+
+    """time format"""
+    timeFormat: ThermostatTimeFormat
+
+    """room preset type"""
+    type: RoomType
+  ): Room
+
+  """Set holiday mode on location and all devices"""
+  deviceHoliday(
+    """location id you want to delete"""
+    lid: Int!
+
+    """Temperature * 10"""
+    temperature: Int!
+
+    """Holiday in days starting from now! (optional) in Locations timezone"""
+    days: Int
+
+    """
+    Holiday starts! ("YYYY-MM-DD HH:MM:SS"  optional) in Locations timezone
+    """
+    start: String
+
+    """Holiday ends! ("YYYY-MM-DD HH:MM:SS"  optional) in Locations timezone"""
+    end: String
+  ): Boolean
+
+  """Cancel holiday on location and all devices"""
+  cancelHoliday(
+    """location id you want to delete"""
+    lid: Int!
+  ): Boolean
+
+  """upgrade latest firmware"""
+  upgradeLatestFw(
+    """location ID"""
+    lid: Int!
+
+    """room ID"""
+    rid: Int
+  ): Boolean
+
+  """Validate a device to prepare for provision"""
+  initShadow(
+    """device serial number with checksum"""
+    serial: String!
+
+    """device type"""
+    type: String!
+
+    """device token"""
+    token: String!
+  ): Boolean
+
+  """Validate a device to prepare for provision"""
+  createShadow(
+    """device serial number with checksum"""
+    serial: String!
+
+    """device type"""
+    type: String!
+
+    """device token"""
+    token: String!
+  ): Boolean
+
+  """Validate a device to prepare for provision"""
+  fwShadow(
+    """device serial number with checksum"""
+    serial: String!
+
+    """device type"""
+    type: String!
+
+    """device token"""
+    token: String!
+  ): String
+
+  """Validate a device to prepare for provision"""
+  upgradeShadow(
+    """device serial number with checksum"""
+    serial: String!
+
+    """device type"""
+    type: String!
+
+    """device token"""
+    token: String!
+
+    """specific version"""
+    version: String
+  ): Boolean
+
+  """Validate a device to prepare for provision"""
+  gen2Cvm(
+    """device serial number with checksum"""
+    serial: String!
+
+    """device token"""
+    token: String!
+  ): Json
+
+  """update parameters (admin)"""
+  adminFields(
+    """room ID"""
+    rid: Int
+
+    """Serial number"""
+    sn: String
+
+    """Parameter values json"""
+    fields: String
+  ): Room
+
+  """update firmware (admin)"""
+  adminFirmware(
+    """room ID"""
+    rid: Int
+
+    """Serial number"""
+    sn: String
+
+    """Firmware to push vv.bbb"""
+    fw: String
+  ): Boolean
+
+  """(support) Trigger proxy device reload """
+  deviceReLoad(
+    """Serial number"""
+    sn: String
+  ): Int
+
+  """(admin) Device delete """
+  adminDeviceDelete(
+    """location ID"""
+    lid: Int!
+
+    """room ID"""
+    rid: Int
+
+    """user who owns the device"""
+    uid: String
+  ): Boolean
+
+  """Creating a new location!"""
+  addLocation(
+    """Name of the location (not unique)"""
+    name: String!
+
+    """The temperature is in fahrenheit? (default false)"""
+    isFahrenheit: Boolean
+
+    """
+    Latitude, I recommend setting it (at least the middle of the country) (or 0)
+    """
+    lat: String!
+
+    """Longitude (or 0)"""
+    long: String!
+
+    """
+    Timezone (set if geo is fake, https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+    """
+    timezone: String
+
+    """Country code (set if geo is fake)"""
+    countryCode: String
+
+    """Currency code (set if geo is fake)"""
+    currency: Currency4iE
+
+    """Address 1"""
+    address1: String
+
+    """Address  2"""
+    address2: String
+
+    """Town/City"""
+    town: String
+
+    """Postcode"""
+    postcode: String
+
+    """high electricity tariff cost (KWh)"""
+    elecHighCost: String
+
+    """low electricity tariff cost (KWh)"""
+    elecLowCost: String
+
+    """low electricity tariff starts (HH:mm)"""
+    elecLowStart: String
+
+    """low electricity tariff ends (HH:mm)"""
+    elecLowEnd: String
+
+    """high gas tariff cost (KWh)"""
+    gasHighCost: String
+
+    """low gas tariff cost (KWh)"""
+    gasLowCost: String
+
+    """low gas tariff starts (HH:mm)"""
+    gasLowStart: String
+
+    """low electricity tariff ends (HH:mm)"""
+    gasLowEnd: String
+  ): Location
+
+  """Modify location!"""
+  locationAdvanced(
+    """location id"""
+    lid: Int!
+
+    """name"""
+    name: String
+
+    """country code"""
+    countryCode: String
+
+    """address line 1"""
+    address1: String
+
+    """address line 2"""
+    address2: String
+
+    """geo location longitude"""
+    long: String
+
+    """geo location latitude"""
+    lat: String
+
+    """town/city"""
+    town: String
+
+    """postcode"""
+    postcode: String
+
+    """currency"""
+    currency: Currency4iE
+
+    """temperature format is fahrenheit?"""
+    isFahrenheit: Boolean
+
+    """high electricity tariff cost (kWh)"""
+    elecHighCost: String
+
+    """low electricity tariff cost (kWh)"""
+    elecLowCost: String
+
+    """low electricity tariff starts (HH:mm)"""
+    elecLowStart: String
+
+    """low electricity tariff ends (HH:mm)"""
+    elecLowEnd: String
+
+    """high gas tariff cost (kWh)"""
+    gasHighCost: String
+
+    """low gas tariff cost (kWh)"""
+    gasLowCost: String
+
+    """low gas tariff starts (HH:mm)"""
+    gasLowStart: String
+
+    """low electricity tariff ends (HH:mm)"""
+    gasLowEnd: String
+  ): Location
+
+  """Delete location!"""
+  deleteLocation(
+    """location id you want to delete"""
+    lid: Int!
+  ): Boolean
+
+  """Set geo state"""
+  setGeo(
+    """location system id"""
+    lid: Int!
+
+    """New geo state"""
+    geo: Boolean!
+
+    """New mobile geo state, == 0 => resets zone."""
+    mob: Int
+  ): Boolean
+
+  """Delete location!"""
+  setZones(
+    """locations with zones [$lid]=$zone JSON string e.g.: {"12":4,"445":"1"}"""
+    locZones: String!
+  ): Boolean
+
+  """Delete location!"""
+  removeMobile(
+    """location system id"""
+    lid: Int!
+
+    """mobile device system id or current"""
+    mid: Int
+  ): Boolean
+
+  """(admin) delete/un-share location!"""
+  adminDeleteLocation(
+    """user id who owns or shared with the location"""
+    uid: Int!
+
+    """location id you want to delete or un-share"""
+    lid: Int!
+  ): Boolean
+
+  """subscribe to beta with device"""
+  enableBeta(
+    """Mobile device type"""
+    device: MobileType
+
+    """MobileOS ID email"""
+    email: String
+  ): Int
+
+  """unsubscribe to beta with device"""
+  disableBeta(
+    """Mobile device type"""
+    device: MobileType
+
+    """MobileOS ID email"""
+    email: String
+  ): Int
+
+  """create feedback"""
+  addFeedback(
+    """rating"""
+    rating: Int
+
+    """feedback"""
+    feedback: String
+
+    """operating device"""
+    operatingDevice: String
+
+    """operating system"""
+    operatingSystem: String
+
+    """version major.[minor.[maintenance]]"""
+    version: String
+
+    """language"""
+    language: String
+  ): Boolean
+
+  """Support - create note for user"""
+  addNote(
+    """customer user id"""
+    customer: Int
+
+    """note test for customer"""
+    note: String
+  ): NoteEntity
+
+  """
+  Set Firebase Message Cloud token. Returns token Id or 0 if it already exists
+  """
+  setMessageCloudToken(
+    """Firebase message cloud register token"""
+    token: String
+  ): Int
+}
+
+""""""
+type SwitchSnapshot {
+  """userId of SwitchSnapshot"""
+  userId: Int
+
+  """switchId of SwitchSnapshot"""
+  switchId: Int
+
+  """tariffId of SwitchSnapshot"""
+  tariffId: Int
+
+  """createdAt of SwitchSnapshot"""
+  createdAt: String
+
+  """id of SwitchSnapshot"""
+  id: Int
+
+  """tariffName of SwitchSnapshot"""
+  tariffName: String
+
+  """supplierId of SwitchSnapshot"""
+  supplierId: Int
+
+  """supplierName of SwitchSnapshot"""
+  supplierName: String
+
+  """supplierLogo of SwitchSnapshot"""
+  supplierLogo: String
+
+  """savings of SwitchSnapshot"""
+  savings: String
+
+  """Get user"""
+  user: RestrictedUser
+}
+
+""""""
+enum DeviceType {
+  """D4IE"""
+  d4ie
+
+  """D6IE"""
+  d6ie
+
+  """RSW"""
+  rsw
+
+  """DRSW"""
+  drsw
+
+  """DSTR fake type DO NOT use it!"""
+  dstr
+}
+
+""""""
+enum ExternalTerminalFunction {
+  """NO_FUNCTION"""
+  no_function
+
+  """OVERHEAT_SENSOR"""
+  overheat_sensor
+
+  """MASTER_CONTROL"""
+  master_control
+
+  """RELAY_DEVICE"""
+  relay_device
+}
+
+""""""
+enum FloorSensorType {
+  """NONE"""
+  none
+
+  """W10K"""
+  w10k
+
+  """W12K"""
+  w12k
+
+  """W15K"""
+  w15k
+}
+
+""""""
+enum Language {
+  """ENGLISH"""
+  en
+
+  """FRENCH"""
+  fr
+
+  """GERMAN"""
+  de
+
+  """SPANISH"""
+  es
+
+  """PORTUGUESE"""
+  pt
+
+  """DUTCH"""
+  nl
+
+  """SWEDISH"""
+  sv
+
+  """ITALIAN"""
+  it
+
+  """NORWEGIAN"""
+  no
+
+  """TURKISH"""
+  tr
+
+  """POLISH"""
+  pl
+
+  """ROMANIAN"""
+  ro
+
+  """SLOVAKIAN"""
+  sk
+
+  """CROATIAN"""
+  hr
+
+  """SLOVENIAN"""
+  sl
+}
+
+""""""
+enum DisplayedProbe {
+  """AMB"""
+  amb
+
+  """FLOOR"""
+  floor
+}
+
+""""""
+enum RegulatorType {
+  """PID"""
+  pid
+
+  """PWM"""
+  pwm
+}
+
+""""""
+enum ThermostatTimeFormat {
+  """H24"""
+  h24
+
+  """H12"""
+  h12
+}
+
+""""""
+enum Currency4iE {
+  """POUND"""
+  pound
+
+  """EURO"""
+  euro
+
+  """DOLLAR"""
+  dollar
+
+  """YEN_YUAN"""
+  yen_yuan
+
+  """ZLOTY"""
+  zloty
+
+  """KRONE"""
+  krone
+
+  """KUNA"""
+  kuna
+}
+
+""""""
+enum MobileType {
+  """ANDROID"""
+  Android
+
+  """I_OS"""
+  iOS
+}

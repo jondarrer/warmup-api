@@ -1,0 +1,21 @@
+@appToken = M=;He<Xtg"$}4N%5k{$:PD+WA"]D<;#PriteY|VTuA>_iyhs+vA"4lic{6-LqNM:
+
+POST https://api.warmup.com/apps/app/v1
+content-type: application/json
+user-agent: WARMUP_APP,
+accept-encoding: br, gzip, deflate
+accept: */*
+connection: keep-alive
+content-type: application/json
+app-token: {{appToken}}
+app-version: 1.8.1
+accept-language: en-gb
+
+{
+  "request": {
+    "email":"{{$dotenv USERNAME}}",
+    "password":"{{$dotenv PASSWORD}}",
+    "method":"userLogin",
+    "appId":"WARMUP_APP_ID"
+  }
+}
