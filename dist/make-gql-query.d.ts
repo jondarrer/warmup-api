@@ -1,6 +1,6 @@
 declare function _default(query: {
     operationName: string;
-    query: object;
+    query: string;
     variables: [object];
 }, token: string): Promise<object>;
 export default _default;
