@@ -1,1 +1,1 @@
-{"version":3,"file":"make-gql-query.d.ts","sourceRoot":"","sources":["../src/make-gql-query.js"],"names":[],"mappings":"AAYe,iCALJ;IAAC,aAAa,EAAE,MAAM,CAAC;IAAC,KAAK,EAAE,MAAM,CAAC;IAAC,SAAS,CAAC,EAAE,MAAM,CAAA;CAAC,SAC1D,MAAM,GACJ,QAAQ,MAAM,CAAC,CAS3B"}
+{"version":3,"file":"make-gql-query.d.ts","sourceRoot":"","sources":["../src/make-gql-query.js"],"names":[],"mappings":"AAYe,iCALJ;IAAC,aAAa,EAAE,MAAM,CAAC;IAAC,KAAK,EAAE,MAAM,CAAC;IAAC,SAAS,EAAE,MAAM,QAAC;CAAC,SAC1D,MAAM,GACJ,QAAQ,MAAM,CAAC,CAO3B"}
