@@ -19,6 +19,7 @@
   "scripts": {
     "build": "npm run typings && npm run copy-files",
     "copy-files": "copyfiles --exclude \"**/*.spec.js\" -u 1 src/* src/**/* src/**/**/* dist/",
+    "bump": "npm version patch && git push --tags",
     "coverage-badge": "lcov-badge2 -o coverage-badge.svg coverage/lcov.info",
     "create-warmup-schema": "node --env-file=.env src/utils/create-warmup-schema",
     "lint-staged": "lint-staged",
