@@ -9,5 +9,10 @@
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "cSpell.ignorePaths": ["warmup-schema.graphql"],
+  "cSpell.words": [
+    "Darrer",
+    "lcov"
+  ]
 }

@@ -11,7 +11,6 @@ An API for communicating with a wifi-enabled home thermostat made by Warmup.
   - [Regenerating the schema](#regenerating-the-schema)
   - [Testing](#testing)
 
-
 ## Using this library
 
 ### Installation
@@ -35,7 +34,7 @@ const getUserProfileQuery = {
   query: "query getUserProfile {\n  user {\n    userProfile {\n      email\n      firstName\n      lastName\n    }\n  }\n}",
   variables: null
 };
-const { user: { userProfile } } = await makeGQLQuery(getUserProfileQuery, token);
+const { data: { user: { userProfile } } } = await makeGQLQuery(getUserProfileQuery, token);
 console.log(userProfile.email, userProfile.firstName, userProfile.lastName );
 ```
 
@@ -45,7 +44,7 @@ The full Warmup GraphQL schema can be found [./warmup-schema.graphql](./warmup-s
 
 ### Regenerating the schema
 
-The schema, located at [./warmup-schema.graphql](./warmup-schema.graphql) can be regenerated at any time by running:
+The schema, located at [./warmup-schema.graphql](./warmup-schema.graphql) can be regenerated at any time by running (using Node >= 20.x):
 
 ```sh
 npm run create-warmup-schema

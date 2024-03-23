@@ -11,7 +11,9 @@ import { WARMUP_GRAPHQL_BASE_URL, WARMUP_GRAPHQL_PATH } from './config.js';
  * @throws When a 4xx or 5xx response code is received
  */
 export default async (query, token) => {
-  return (
-    await makeRequest({ url: `${WARMUP_GRAPHQL_BASE_URL}${WARMUP_GRAPHQL_PATH}`, body: JSON.stringify(query), token })
-  ).response.data;
+  return await makeRequest({
+    url: `${WARMUP_GRAPHQL_BASE_URL}${WARMUP_GRAPHQL_PATH}`,
+    body: JSON.stringify(query),
+    token,
+  });
 };

@@ -12,17 +12,17 @@ it.each([
   {
     status: 500,
     message: 'Internal Server Error',
-    expected: 'Error attempting request for https://apil.warmup.com/graphql: 500 ', // Nock doesn't allow us to set the statusText proplerly
+    expected: 'Error attempting request for https://apil.warmup.com/graphql: 500 ', // Nock doesn't allow us to set the statusText properly
   },
   {
     status: 403,
     message: 'Forbidden',
-    expected: 'Error attempting request for https://apil.warmup.com/graphql: 403 ', // Nock doesn't allow us to set the statusText proplerly
+    expected: 'Error attempting request for https://apil.warmup.com/graphql: 403 ', // Nock doesn't allow us to set the statusText properly
   },
   {
     status: 401,
     message: 'Unauthorized',
-    expected: 'Error attempting request for https://apil.warmup.com/graphql: 401 ', // Nock doesn't allow us to set the statusText proplerly
+    expected: 'Error attempting request for https://apil.warmup.com/graphql: 401 ', // Nock doesn't allow us to set the statusText properly
   },
 ])('should throw an error if a $status error response is received', async ({ status, message, expected }) => {
   // Arrange
@@ -78,27 +78,23 @@ it('should return the token if a 200 response is received along with the token',
   };
   const token = 'good';
   const expected = {
-    user: {
-      userProfile: {
-        email: 'valid@test.com',
-        firstName: 'Test',
-        lastName: 'User',
+    status: {
+      result: 'success',
+    },
+    data: {
+      user: {
+        userProfile: {
+          email: 'valid@test.com',
+          firstName: 'Test',
+          lastName: 'User',
+        },
       },
     },
+    message: {
+      duration: '0.075',
+    },
   };
-  nock(WARMUP_GRAPHQL_BASE_URL)
-    .post(WARMUP_GRAPHQL_PATH)
-    .reply(200, {
-      status: {
-        result: 'success',
-      },
-      response: {
-        data: expected,
-      },
-      message: {
-        duration: '0.075',
-      },
-    });
+  nock(WARMUP_GRAPHQL_BASE_URL).post(WARMUP_GRAPHQL_PATH).reply(200, expected);
 
   // Act
   const response = await makeGraphQLQuery(body, token);
