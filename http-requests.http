@@ -16,7 +16,7 @@ accept-language: en-gb
     "email":"{{$dotenv USERNAME}}",
     "password":"{{$dotenv PASSWORD}}",
     "method":"userLogin",
-    "appId":"WARMUP_APP_ID"
+    "appId":"WARMUP-APP-V001"
   }
 }
 
@@ -138,7 +138,7 @@ accept-language: en-gb
 warmup-authorization: {{$dotenv AUTH_TOKEN}}
 X-REQUEST-TYPE: GraphQL
 
-query introspect {
+query getEverything {
   serverDateTime
   version {
     minimum
@@ -363,19 +363,3 @@ query introspect {
 
 {
 }
-
-###
-
-# mobile [AggregateMobile]
-# ownedMobiles [MobileDevice]
-# location(id: Int): Location
-# findLocation(rid: Int): Location
-# guestShares(lid: Int): [InviteLocationConfirmationEntity]
-# myShares(lid: Int): [LocationShareObject]
-# verifyPassword(pass: String!): Boolean
-# locations(id: Int): [Location]
-# betaState EnabledState
-# switchReports(switchId: Int): SwitchReport
-# switchProperties: AutoProperties
-# visibleDevice(serial: String!): String
-#   visibleDevice(serial: "C4AC59EDFD2C")

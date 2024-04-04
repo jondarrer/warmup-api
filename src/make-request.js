@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 
 import { WARMUP_APP_TOKEN, WARMUP_APP_USER_AGENT } from './config.js';
+import { InvalidCredentialsError, UnexpectedError, AuthorisationError } from './errors/index.js';
 
 /**
  * Make a request to either the Warmup API or GraphQL endpoint
@@ -35,15 +36,29 @@ const makeRequest = async ({ url, body, token }) => {
   });
 
   if (!response.ok) {
-    throw new Error(`Error attempting request for ${url}: ${response.status} ${response.statusText}`);
+    switch (response.status) {
+      case 401:
+        throw new AuthorisationError(`Error attempting request for ${url}`);
+      default:
+        throw new UnexpectedError(`Error attempting request for ${url}: ${response.statusText}`, response.status);
+    }
   }
 
   const result = /** @type {any} */ (await response.json());
   if (result?.status?.result === 'error') {
-    throw new Error(`Error attempting request for ${url}: Responded with error code ${result?.response?.errorCode}`);
+    switch (result?.response?.errorCode) {
+      case 112:
+        throw new InvalidCredentialsError('Unrecognised email address', 112);
+      case 124:
+        throw new InvalidCredentialsError('Invalid password', 124);
+      default:
+        throw new UnexpectedError(`Error attempting request for ${url}`, result.response.errorCode);
+    }
   }
   if (result?.status === 'error') {
-    throw new Error(`Error attempting request for ${url}: Responded with errors ${JSON.stringify(result?.errors)}`);
+    throw new UnexpectedError(
+      `Error attempting request for ${url}: Responded with errors ${JSON.stringify(result.errors)}`
+    );
   }
   return result;
 };
