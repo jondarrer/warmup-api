@@ -47,6 +47,8 @@ const makeRequest = async ({ url, body, token }) => {
   const result = /** @type {any} */ (await response.json());
   if (result?.status?.result === 'error') {
     switch (result?.response?.errorCode) {
+      case 101:
+        throw new InvalidCredentialsError('Invalid email address/password', 101);
       case 112:
         throw new InvalidCredentialsError('Unrecognised email address', 112);
       case 124:

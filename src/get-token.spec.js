@@ -12,6 +12,11 @@ afterEach(async () => {
 it.each([
   {
     status: 200,
+    response: { status: { result: 'error' }, response: { errorCode: 101 } },
+    expected: new InvalidCredentialsError('Invalid email address/password', 101),
+  },
+  {
+    status: 200,
     response: { status: { result: 'error' }, response: { errorCode: 112 } },
     expected: new InvalidCredentialsError('Unrecognised email address', 112),
   },
