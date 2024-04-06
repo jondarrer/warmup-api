@@ -14,9 +14,11 @@
     "url": "https://github.com/jondarrer/warmup-api/issues"
   },
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "module": "esnext",
   "scripts": {
+    "build": "npm run typings && npm run copy-files",
+    "copy-files": "copyfiles --exclude \"**/*.spec.js\" -u 1 src/* src/**/* src/**/**/* dist/",
     "coverage-badge": "lcov-badge2 -o coverage-badge.svg coverage/lcov.info",
     "create-warmup-schema": "node --env-file=.env src/utils/create-warmup-schema",
     "lint-staged": "lint-staged",
@@ -31,6 +33,7 @@
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.20",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.56.0",
     "eslint-plugin-jest": "^27.9.0",
     "eslint-plugin-node": "^11.1.0",
