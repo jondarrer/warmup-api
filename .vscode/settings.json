@@ -9,5 +9,11 @@
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "nodejs-testing.extensions": [
+    {
+      "extensions": ["js"],
+      "parameters": [],
+    }
+  ],
 }

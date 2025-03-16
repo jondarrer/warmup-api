@@ -1,3 +1,6 @@
+import { describe, it, afterEach } from 'node:test';
+import assert from 'node:assert';
+
 import nock from 'nock';
 
 import makeGraphQLQuery from './make-gql-query.js';
@@ -8,35 +11,38 @@ afterEach(async () => {
   nock.cleanAll();
 });
 
-it.each([
-  {
-    status: 500,
-    message: 'Internal Server Error',
-    expected: 'Error attempting request for https://apil.warmup.com/graphql: 500 ', // Nock doesn't allow us to set the statusText proplerly
-  },
-  {
-    status: 403,
-    message: 'Forbidden',
-    expected: 'Error attempting request for https://apil.warmup.com/graphql: 403 ', // Nock doesn't allow us to set the statusText proplerly
-  },
-  {
-    status: 401,
-    message: 'Unauthorized',
-    expected: 'Error attempting request for https://apil.warmup.com/graphql: 401 ', // Nock doesn't allow us to set the statusText proplerly
-  },
-])('should throw an error if a $status error response is received', async ({ status, message, expected }) => {
-  // Arrange
-  const body = {
-    operationName: 'getUserProfile',
-    query:
-      'query getUserProfile {\n  user {\n    userProfile {\n      email\n      firstName\n      lastName\n    }\n  }\n}',
-    variables: null,
-  };
-  const token = 'no-good';
-  nock(WARMUP_GRAPHQL_BASE_URL).post(WARMUP_GRAPHQL_PATH).reply(status, message);
+describe('should throw an error if an error response is received', async () => {
+  const tests = [
+    {
+      status: 500,
+      message: 'Internal Server Error',
+      expected: 'Error attempting request for https://apil.warmup.com/graphql: 500 Internal Server Error',
+    },
+    {
+      status: 403,
+      message: 'Forbidden',
+      expected: 'Error attempting request for https://apil.warmup.com/graphql: 403 Forbidden',
+    },
+    {
+      status: 401,
+      message: 'Unauthorized',
+      expected: 'Error attempting request for https://apil.warmup.com/graphql: 401 Unauthorized',
+    },
+  ];
+  for (const { status, message, expected } of tests) {
+    // Arrange
+    const body = {
+      operationName: 'getUserProfile',
+      query:
+        'query getUserProfile {\n  user {\n    userProfile {\n      email\n      firstName\n      lastName\n    }\n  }\n}',
+      variables: null,
+    };
+    const token = 'no-good';
+    nock(WARMUP_GRAPHQL_BASE_URL).post(WARMUP_GRAPHQL_PATH).reply(status, message);
 
-  // Act & Assert
-  await expect(() => makeGraphQLQuery(body, token)).rejects.toThrow(new Error(expected));
+    // Act & Assert
+    await assert.rejects(() => makeGraphQLQuery(body, token), new Error(expected));
+  }
 });
 
 it('should throw an error if a status.result=error response is received', async () => {
@@ -61,7 +67,8 @@ it('should throw an error if a status.result=error response is received', async 
     });
 
   // Act & Assert
-  await expect(() => makeGraphQLQuery(body, token)).rejects.toThrow(
+  await assert.rejects(
+    () => makeGraphQLQuery(body, token),
     new Error(
       'Error attempting request for https://apil.warmup.com/graphql: Responded with errors [{"errorCode":11,"message":"Some unexpected error occurred"}]'
     )
@@ -104,6 +111,6 @@ it('should return the token if a 200 response is received along with the token',
   const response = await makeGraphQLQuery(body, token);
 
   // Assert
-  expect(response).toBeDefined();
-  expect(response).toEqual(expected);
+  assert.ok(response);
+  assert.deepEqual(response, expected);
 });

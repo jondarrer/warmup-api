@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import { WARMUP_APP_TOKEN, WARMUP_APP_USER_AGENT } from './config.js';
 
 /**
@@ -17,6 +15,8 @@ const makeRequest = async ({ url, body, token }) => {
   if (token) {
     authHeader['warmup-authorization'] = token;
   }
+
+  // console.log('makeRequest', { url, body, token });
 
   const response = await fetch(url, {
     method: 'POST',
