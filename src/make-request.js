@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import { WARMUP_APP_TOKEN, WARMUP_APP_USER_AGENT } from './config.js';
 import { InvalidCredentialsError, UnexpectedError, AuthorisationError } from './errors/index.js';
 

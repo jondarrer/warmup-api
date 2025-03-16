@@ -14,5 +14,11 @@
   "cSpell.words": [
     "Darrer",
     "lcov"
-  ]
+  ],
+  "nodejs-testing.extensions": [
+    {
+      "extensions": ["js"],
+      "parameters": [],
+    }
+  ],
 }
