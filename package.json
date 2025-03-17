@@ -13,19 +13,16 @@
   "bugs": {
     "url": "https://github.com/jondarrer/warmup-api/issues"
   },
-  "type": "module",
-  "main": "dist/index.js",
-  "module": "esnext",
+  "type": "commonjs",
+  "main": "dist/src/index.js",
   "scripts": {
-    "build": "npm run typings && npm run copy-files",
-    "copy-files": "copyfiles --exclude \"**/*.spec.js\" -u 1 src/* src/**/* src/**/**/* dist/",
+    "build": "tsc",
     "bump": "npm version patch && git push --tags",
     "coverage-badge": "lcov-badge2 -o coverage-badge.svg coverage/lcov.info",
-    "create-warmup-schema": "node --env-file=.env src/utils/create-warmup-schema",
+    "create-warmup-schema": "tsx --env-file=.env scripts/create-warmup-schema.ts",
     "lint-staged": "lint-staged",
     "prepare": "husky",
-    "test": "node --test",
-    "typings": "npx tsc"
+    "test": "node --import tsx --test --experimental-test-module-mocks \"src/**/*.test.ts\""
   },
   "types": "./dist/index.d.ts",
   "devDependencies": {
@@ -39,7 +36,10 @@
     "nock": "^14.0.1",
     "prettier": "^3.5.3",
     "prettier-package-json": "^2.8.0",
-    "typescript": "^5.8.2"
+    "tsc": "^2.0.4",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
   },
   "keywords": [
     "home",
@@ -55,11 +55,11 @@
       "prettier-package-json --write",
       "git add"
     ],
-    "src/**/*.js": [
+    "src/**/*.ts": [
       "eslint --fix --quiet",
       "prettier --single-quote --trailing-comma es5 --write",
       "git add"
     ]
   },
-  "target": "es2022"
+  "target": "esnext"
 }

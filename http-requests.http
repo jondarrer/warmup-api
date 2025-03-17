@@ -13,7 +13,7 @@ accept-language: en-gb
 
 {
   "request": {
-    "email":"{{$dotenv USERNAME}}",
+    "email":"{{$dotenv EMAIL}}",
     "password":"{{$dotenv PASSWORD}}",
     "method":"userLogin",
     "appId":"WARMUP-APP-V001"

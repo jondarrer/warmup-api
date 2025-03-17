@@ -47,18 +47,16 @@ The full Warmup GraphQL schema can be found [./warmup-schema.graphql](./warmup-s
 The schema, located at [./warmup-schema.graphql](./warmup-schema.graphql) can be regenerated at any time by running (using Node >= 20.x):
 
 ```sh
-npm run create-warmup-schema
+EMAIL="" PASSWORD="" npm run create-warmup-schema
 ```
 
-This requires the following in a `.env` file which you will need to create:
+There are a variety of helpful queries in [./http-requests.http](./http-requests.http); these require the following in a `.env` file which you will need to create: NB. See the first query for how to obtain an auth token.
 
 ```sh
-USERNAME=""
+EMAIL=""
 PASSWORD=""
 AUTH_TOKEN=""
 ```
-
-See the first query in [./http-requests.http](./http-requests.http) for how to obtain an auth token.
 
 ### Testing
 

@@ -1,0 +1,1 @@
+{"version":3,"file":"authorisation-error.js","sourceRoot":"","sources":["../../../src/errors/authorisation-error.ts"],"names":[],"mappings":";;;AAAA,MAAa,kBAAmB,SAAQ,KAAK;IAExB;IAAwB;IAD3C,0CAA0C;IAC1C,YAAmB,OAAe,EAAS,SAAiB;QAC1D,KAAK,CAAC,OAAO,CAAC,CAAC;QADE,YAAO,GAAP,OAAO,CAAQ;QAAS,cAAS,GAAT,SAAS,CAAQ;IAE5D,CAAC;CACF;AALD,gDAKC"}
