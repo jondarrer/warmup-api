@@ -27,12 +27,12 @@ const config_js_1 = require("./config.js");
         {
             status: 500,
             response: 'Internal Server Error',
-            expected: new index_js_1.UnexpectedError('Error attempting request for https://apil.warmup.com/graphql: Internal Server Error', 500), // Nock doesn't allow us to set the statusText properly
+            expected: new index_js_1.UnexpectedError('Error attempting request for https://apil.warmup.com/graphql: Internal Server Error', 500),
         },
         {
             status: 403,
             response: 'Forbidden',
-            expected: new index_js_1.UnexpectedError('Error attempting request for https://apil.warmup.com/graphql: Forbidden', 403), // Nock doesn't allow us to set the statusText properly
+            expected: new index_js_1.UnexpectedError('Error attempting request for https://apil.warmup.com/graphql: Forbidden', 403),
         },
         {
             status: 401,

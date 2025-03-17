@@ -22,8 +22,7 @@ exports.default = async (email, password) => {
     // ts-expect-error
     return (await (0, make_request_js_1.makeRequest)({
         url: `${config_js_1.WARMUP_TOKEN_BASE_URL}${config_js_1.WARMUP_TOKEN_V1_PATH}`,
-        body: JSON.stringify(body)
-    }))
-        .response.token;
+        body: JSON.stringify(body),
+    })).response.token;
 };
 //# sourceMappingURL=get-token.js.map

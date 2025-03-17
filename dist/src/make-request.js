@@ -36,7 +36,7 @@ const makeRequest = async ({ url, body, token }) => {
                 throw new index_js_1.UnexpectedError(`Error attempting request for ${url}: ${response.statusText}`, response.status);
         }
     }
-    const result = /** @type {any} */ (await response.json());
+    const result = /** @type {any} */ await response.json();
     if (result?.status?.result === 'error') {
         switch (result?.response?.errorCode) {
             case 101:

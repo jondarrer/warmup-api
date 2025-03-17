@@ -32,12 +32,12 @@ describe('should throw an error if an error response is received', async () => {
       expected: new UnexpectedError(
         'Error attempting request for https://apil.warmup.com/graphql: Internal Server Error',
         500
-      ), // Nock doesn't allow us to set the statusText properly
+      ),
     },
     {
       status: 403,
       response: 'Forbidden',
-      expected: new UnexpectedError('Error attempting request for https://apil.warmup.com/graphql: Forbidden', 403), // Nock doesn't allow us to set the statusText properly
+      expected: new UnexpectedError('Error attempting request for https://apil.warmup.com/graphql: Forbidden', 403),
     },
     {
       status: 401,
