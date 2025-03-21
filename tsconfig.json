@@ -3,7 +3,7 @@
     "sourceMap": true,
     "target": "ES2022",
     "module": "CommonJS",
-    "rootDirs": ["src", "scripts"],
+    "rootDir": "src",
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
@@ -13,5 +13,5 @@
     "experimentalDecorators": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "scripts/introspect-graphql-endpoint.ts", "scripts/create-warmup-schema.ts"]
+  "include": ["src/**/*.ts"]
 }
