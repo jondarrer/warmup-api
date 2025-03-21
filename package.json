@@ -23,7 +23,7 @@
     "generate": "graphql-codegen --config ./codegen.ts",
     "lint-staged": "lint-staged",
     "prepare": "husky",
-    "test": "node --import tsx --test \"src/**/*.test.ts\""
+    "test": "node --import tsx --test"
   },
   "types": "dist/src/index.d.ts",
   "devDependencies": {
