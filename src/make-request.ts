@@ -1,5 +1,6 @@
 import { WARMUP_APP_TOKEN, WARMUP_APP_USER_AGENT } from './config.js';
 import { InvalidCredentialsError, UnexpectedError, AuthorisationError } from './errors/index.js';
+import { HeatingMutation, HeatingQuery } from './types.js';
 
 export interface IMakeRequestParams {
   url: string;
@@ -13,8 +14,8 @@ export interface IMakeRequestTokenResponse {
   };
 }
 
-export interface IMakeRequestGQLResponse {
-  data: object;
+export interface IMakeRequestGQLResponse<T = HeatingQuery | HeatingMutation> {
+  data: T;
 }
 
 type MakeRequestResponse = IMakeRequestTokenResponse | IMakeRequestGQLResponse;

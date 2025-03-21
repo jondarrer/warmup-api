@@ -20,6 +20,7 @@
     "bump": "npm version patch && git push --tags",
     "coverage-badge": "lcov-badge2 -o coverage-badge.svg coverage/lcov.info",
     "create-warmup-schema": "tsx --env-file=.env scripts/create-warmup-schema.ts",
+    "generate": "graphql-codegen --config ./codegen.ts",
     "lint-staged": "lint-staged",
     "prepare": "husky",
     "test": "node --import tsx --test"
@@ -28,6 +29,9 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.14.0",
+    "@graphql-codegen/cli": "^5.0.5",
+    "@graphql-codegen/typescript": "^4.1.5",
+    "@graphql-codegen/typescript-resolvers": "^4.4.4",
     "@types/node": "^22.13.10",
     "@typescript-eslint/eslint-plugin": "^8.14.0",
     "@typescript-eslint/parser": "^8.14.0",

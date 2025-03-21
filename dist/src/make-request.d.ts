@@ -1,3 +1,4 @@
+import { HeatingMutation, HeatingQuery } from './types.js';
 export interface IMakeRequestParams {
     url: string;
     body: string;
@@ -8,8 +9,8 @@ export interface IMakeRequestTokenResponse {
         token: string;
     };
 }
-export interface IMakeRequestGQLResponse {
-    data: object;
+export interface IMakeRequestGQLResponse<T = HeatingQuery | HeatingMutation> {
+    data: T;
 }
 type MakeRequestResponse = IMakeRequestTokenResponse | IMakeRequestGQLResponse;
 /**

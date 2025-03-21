@@ -1,10 +1,12 @@
 import js from '@eslint/js';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-export default [
+export default defineConfig([
   js.configs.recommended, // Recommended config applied to all files
   ...tseslint.configs.strict,
   ...tseslint.configs.stylistic,
+  globalIgnores(['dist', 'src/types.ts']),
   {
     files: ['**/*.test.ts'],
     rules: {
@@ -27,4 +29,4 @@ export default [
       },
     },
   },
-];
+]);
