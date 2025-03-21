@@ -3,10 +3,10 @@ import assert from 'node:assert';
 
 import nock from 'nock';
 
-import getToken from './get-token.js';
-import { InvalidCredentialsError, AuthorisationError, UnexpectedError } from './errors/index.js';
+import getToken from './get-token';
+import { InvalidCredentialsError, AuthorisationError, UnexpectedError } from './errors/index';
 
-import { WARMUP_TOKEN_BASE_URL, WARMUP_TOKEN_V1_PATH } from './config.js';
+import { WARMUP_TOKEN_BASE_URL, WARMUP_TOKEN_V1_PATH } from './config';
 
 afterEach(async () => {
   nock.cleanAll();

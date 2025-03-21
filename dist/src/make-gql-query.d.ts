@@ -1,5 +1,5 @@
-import { type IMakeRequestGQLResponse } from './make-request.js';
-import { HeatingMutation, HeatingQuery } from './types.js';
+import { type IMakeRequestGQLResponse } from './make-request';
+import { HeatingMutation, HeatingQuery } from './types';
 interface IGQLQuery {
     operationName: string;
     query: string;

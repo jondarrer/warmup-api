@@ -1,6 +1,6 @@
-import { makeRequest, type IMakeRequestTokenResponse } from './make-request.js';
+import { makeRequest, type IMakeRequestTokenResponse } from './make-request';
 
-import { WARMUP_TOKEN_BASE_URL, WARMUP_TOKEN_V1_PATH, WARMUP_APP_ID } from './config.js';
+import { WARMUP_TOKEN_BASE_URL, WARMUP_TOKEN_V1_PATH, WARMUP_APP_ID } from './config';
 
 /**
  * Get a token by "logging in" to the Warmup API

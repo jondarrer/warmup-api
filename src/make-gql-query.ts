@@ -1,7 +1,7 @@
-import { makeRequest, type IMakeRequestGQLResponse } from './make-request.js';
+import { makeRequest, type IMakeRequestGQLResponse } from './make-request';
 
-import { WARMUP_GRAPHQL_BASE_URL, WARMUP_GRAPHQL_PATH } from './config.js';
-import { HeatingMutation, HeatingQuery } from './types.js';
+import { WARMUP_GRAPHQL_BASE_URL, WARMUP_GRAPHQL_PATH } from './config';
+import { HeatingMutation, HeatingQuery } from './types';
 
 interface IGQLQuery {
   operationName: string;

@@ -3,11 +3,11 @@ import assert from 'node:assert';
 
 import nock from 'nock';
 
-import makeGraphQLQuery from './make-gql-query.js';
-import { AuthorisationError, UnexpectedError } from './errors/index.js';
+import makeGraphQLQuery from './make-gql-query';
+import { AuthorisationError, UnexpectedError } from './errors/index';
 
-import { WARMUP_GRAPHQL_BASE_URL, WARMUP_GRAPHQL_PATH } from './config.js';
-import { HeatingQuery } from './types.js';
+import { WARMUP_GRAPHQL_BASE_URL, WARMUP_GRAPHQL_PATH } from './config';
+import { HeatingQuery } from './types';
 
 afterEach(async () => {
   nock.cleanAll();

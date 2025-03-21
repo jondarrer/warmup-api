@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const make_request_js_1 = require("./make-request.js");
-const config_js_1 = require("./config.js");
+const make_request_1 = require("./make-request");
+const config_1 = require("./config");
 /**
  * Get a token by "logging in" to the Warmup API
  *
@@ -16,12 +16,12 @@ exports.default = async (email, password) => {
             email,
             password,
             method: 'userLogin',
-            appId: config_js_1.WARMUP_APP_ID,
+            appId: config_1.WARMUP_APP_ID,
         },
     };
     // ts-expect-error
-    return (await (0, make_request_js_1.makeRequest)({
-        url: `${config_js_1.WARMUP_TOKEN_BASE_URL}${config_js_1.WARMUP_TOKEN_V1_PATH}`,
+    return (await (0, make_request_1.makeRequest)({
+        url: `${config_1.WARMUP_TOKEN_BASE_URL}${config_1.WARMUP_TOKEN_V1_PATH}`,
         body: JSON.stringify(body),
     })).response.token;
 };

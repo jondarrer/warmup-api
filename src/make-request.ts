@@ -1,6 +1,6 @@
-import { WARMUP_APP_TOKEN, WARMUP_APP_USER_AGENT } from './config.js';
-import { InvalidCredentialsError, UnexpectedError, AuthorisationError } from './errors/index.js';
-import { HeatingMutation, HeatingQuery } from './types.js';
+import { WARMUP_APP_TOKEN, WARMUP_APP_USER_AGENT } from './config';
+import { InvalidCredentialsError, UnexpectedError, AuthorisationError } from './errors/index';
+import { HeatingMutation, HeatingQuery } from './types';
 
 export interface IMakeRequestParams {
   url: string;

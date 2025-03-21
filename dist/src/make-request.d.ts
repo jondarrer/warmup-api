@@ -1,4 +1,4 @@
-import { HeatingMutation, HeatingQuery } from './types.js';
+import { HeatingMutation, HeatingQuery } from './types';
 export interface IMakeRequestParams {
     url: string;
     body: string;
