@@ -7,6 +7,7 @@ import makeGraphQLQuery from './make-gql-query.js';
 import { AuthorisationError, UnexpectedError } from './errors/index.js';
 
 import { WARMUP_GRAPHQL_BASE_URL, WARMUP_GRAPHQL_PATH } from './config.js';
+import { HeatingQuery } from './types.js';
 
 afterEach(async () => {
   nock.cleanAll();
@@ -58,7 +59,7 @@ describe('should throw an error if an error response is received', async () => {
       nock(WARMUP_GRAPHQL_BASE_URL).post(WARMUP_GRAPHQL_PATH).reply(status, response);
 
       // Act & Assert
-      await assert.rejects(() => makeGraphQLQuery(body, token), expected);
+      await assert.rejects(() => makeGraphQLQuery<HeatingQuery>(body, token), expected);
     });
   }
 });
@@ -92,7 +93,7 @@ it('should return the token if a 200 response is received along with the token',
   nock(WARMUP_GRAPHQL_BASE_URL).post(WARMUP_GRAPHQL_PATH).reply(200, expected);
 
   // Act
-  const response = await makeGraphQLQuery(body, token);
+  const response = await makeGraphQLQuery<HeatingQuery>(body, token);
 
   // Assert
   assert.ok(response);
